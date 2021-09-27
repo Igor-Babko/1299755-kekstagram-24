@@ -12,11 +12,9 @@ const getRandom = function (min, max) {
     return parseInt((Math.random() * ++max) + min);
   }
 };
-getRandom(1,2);
 
 //Функция для проверки максимальной длины строки
 
 const checkFieldLength = function (string, maxLength) {
   return maxLength >= string.length;
 };
-checkFieldLength('fd',3);
