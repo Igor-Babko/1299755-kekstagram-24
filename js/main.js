@@ -1,17 +1,6 @@
-//Функция для получения рандомного числа в заданных диапазонах
+const USER_COMMENTS = ['Всё отлично!', 'В целом всё неплохо. Но не всё.', 'Когда вы делаете фотографию, хорошо бы убирать палец из кадра.', 'В конце концов это просто непрофессионально.', 'Моя бабушка случайно чихнула с фотоаппаратом в руках и у неё получилась фотография лучше.', 'Я поскользнулся на банановой кожуре и уронил фотоаппарат на кота и у меня получилась фотография лучше.', 'Лица у людей на фотке перекошены, как будто их избивают. Как можно было поймать такой неудачный момент?!'];
+const USER_NAMES = ['Катя', 'Оля', 'Дима', 'Игорь', 'Наташа', 'Вася', 'Оксана', 'Тимур'];
 
-const getRandom = (min, max) => {
-  if (max > min && min >= 0 && max >= 0) {
-    max -= min;
-    return Math.floor((Math.random() * ++max) + min);
-  } else if ((max <= min && min >= 0 && max >= 0)) {
-    const change = max;
-    max = min;
-    min = change;
-    max -= min;
-    return Math.floor((Math.random() * ++max) + min);
-  }
-};
 
 //Функция для проверки максимальной длины строки
 
@@ -21,55 +10,64 @@ const getRandom = (min, max) => {
 // console.log(getRandom(4,6));
 
 
-//Функция для генерации объектов
+///Функция для получения рандомного числа в заданных диапазонах
+const getRandom = (min, max) => {
+  if (max > min && min >= 0 && max >= 0) {
+    max -= min;
+    return Math.floor((Math.random() * ++max) + min);
+  }
+  // Тут был лишний else. Если у тебя есть if .. return, то else писать не надо
+  if ((max <= min && min >= 0 && max >= 0)) {
+    const change = max;
+    max = min;
+    min = change;
+    max -= min;
+    return Math.floor((Math.random() * ++max) + min);
+  }
+};
 
-const USER_COMMENTS = ['Всё отлично!', 'В целом всё неплохо. Но не всё.', 'Когда вы делаете фотографию, хорошо бы убирать палец из кадра.', 'В конце концов это просто непрофессионально.', 'Моя бабушка случайно чихнула с фотоаппаратом в руках и у неё получилась фотография лучше.', 'Я поскользнулся на банановой кожуре и уронил фотоаппарат на кота и у меня получилась фотография лучше.', 'Лица у людей на фотке перекошены, как будто их избивают. Как можно было поймать такой неудачный момент?!'];
-const USER_NAMES = ['Катя', 'Оля', 'Дима', 'Игорь', 'Наташа', 'Вася', 'Оксана', 'Тимур'];
-const generatedIds = [];
+// Можно добавить функцию, возвращающую случайный элемент из массива
+const getRandomElement = (array) => array[getRandom(0, array.length-1)];
 
-//Функция для генерации уникального id комментария
-
+// Вместо массива можно использовать Set. Он будет гораздо быстрее работать
+const generatedIds = new Set();
 const generateCommentId = () => {
   let id = getRandom(1, 1000);
-  while (generatedIds.includes(id)) {
+  while (generatedIds.has(id)) {
     id = getRandom(1, 1000);
   }
+  generatedIds.add(id); // Можно перенести сюда, так как после генерации ты всегда сразу добавляешь в массив
   return id;
 };
 
-//Функция для генерации комментария
+// Выношу генерацию 1 комментария в отдельную функцию
+const createComment = () => ({
+  id: generateCommentId(),
+  avatar: `img/avatar-${getRandom(1, 6)}.svg`,
+  message: `${getRandomElement(USER_COMMENTS)} ${getRandomElement(USER_COMMENTS)}`,
+  name: getRandomElement(USER_NAMES),
 
+});
+createComment();
+
+//Функция для генерации массива комментариев случайной длины
 const createComments = () => {
-  const commentsMassive = [];
-  const quantityComments = Math.floor(Math.random() * 10 + 1); //Генерируем случайное количество комментариев (1-10)
-  for (let j = 0; j < quantityComments; j++) { //Генерируем эти комментарии
-    const id = generateCommentId();
-    generatedIds.push(id);
-    commentsMassive[j] = {
-      id: id,
-      avatar: `img/avatar-${  Math.floor(Math.random() * 6 + 1)  }.svg`,
-      message: `${USER_COMMENTS[Math.floor(Math.random() * 7)]  } ${  USER_COMMENTS[Math.floor(Math.random() * 7)]}`,
-      name: USER_NAMES[Math.floor(Math.random() * 8)],
-    };
-  }
-  return commentsMassive;
+  const quantity = getRandom(1, 10); //Генерируем случайное количество комментариев (1-10)
+
+  // Вместо массива можно добавить функционального программирования.
+  return Array(quantity).fill(null).map(() => createComment());
 };
 
-//Функция для генерации поста
+// Функция для генерации поста, id я передаю параметром
+const createPost = (id) => ({
+  id,
+  url: `photos/${id}.jpg`,
+  description: 'Одна из моих любимых фотографий',
+  likes: getRandom(15, 200),
+  comments: createComments(),
+});
 
-const getPosts = (quantity) => {
-  const massive = [];
-  let object;
-  for (let i = 0; i < quantity; i++) {
-    object = {
-      id: i + 1,
-      url: `photos/${  i + 1  }.jpg`,
-      description: 'Одна из моих любимых фотографий',
-      likes: getRandom(15, 200),
-      comments: createComments(),
-    };
-    massive.push(object);
-  }
-  return massive;
-};
-getPosts(25);
+// Генерация всех записей. В данной записи i - это номер итерации, как ты раньше в цикле делал
+const createPosts = (quantity) => Array(quantity).fill(null).map((item, i) => createPost(i + 1));
+
+createPosts(25);
