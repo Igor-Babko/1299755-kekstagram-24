@@ -1,4 +1,6 @@
+
 {
+  "type": "module",
   "name": "kekstagram",
   "version": "24.0.0",
   "private": true,
