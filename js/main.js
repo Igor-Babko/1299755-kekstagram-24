@@ -1,7 +1,7 @@
 
 import {createPosts} from './utils/data.js';
 
-console.log(createPosts(25));
+createPosts(25);
 
 // Модуль отвечающий за масштаб изображения
 // модуль с применением эффекта
