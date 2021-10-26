@@ -5,16 +5,7 @@ BigPicture.classList.remove('hidden');
   document.querySelector('.big-picture__img').src = evt.target.url;
   document.querySelector('.likes-count').textContent = evt.target.likes;
   document.querySelector('.comments-count').textContent = evt.target.comments;
-
-
-
-
 }
-
-
-
-
-
 
 
 // Реализовать сценарий просмотра фотографий в полноразмерном режиме. В таком режиме пользователь получает несколько дополнительных возможностей: детально рассмотреть изображение, поставить «лайк», почитать комментарии, оставленные другими пользователями.
