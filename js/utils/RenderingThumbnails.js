@@ -15,7 +15,7 @@ generatedPosts.forEach(({url,likes,comments}) => {
 });
 
 pictures.appendChild(documentFragment);
-console.log(pictures);
+
 
 
 // Отобразить фотографии других пользователей.
