@@ -30,7 +30,6 @@ const createComment = () => ({
 const createComments = () => {
   const quantity = getRandom(1, 10); //Генерируем случайное количество комментариев (1-10)
 
-  // Вместо массива можно добавить функционального программирования.
   return Array(quantity).fill(null).map(() => createComment());
 };
 
@@ -46,6 +45,10 @@ const createPost = (id) => ({
 // Генерация всех записей. В данной записи i - это номер итерации
 const createPosts = (quantity) => Array(quantity).fill(null).map((item, i) => createPost(i + 1));
 
+const generatedPosts = createPosts(25);
+
 export {
-  createPosts
+  createPosts,
+  generatedPosts
+
 };

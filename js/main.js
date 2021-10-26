@@ -1,7 +1,6 @@
 
 import {createPosts} from './utils/data.js';
-
-createPosts(25);
+import './utils/RenderingThumbnails.js';
 
 // Модуль отвечающий за масштаб изображения
 // модуль с применением эффекта
