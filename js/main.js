@@ -1,4 +1,3 @@
-
 import {createPosts} from './utils/data.js';
 import './utils/RenderingThumbnails.js';
 

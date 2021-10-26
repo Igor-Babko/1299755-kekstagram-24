@@ -45,7 +45,8 @@ const createPost = (id) => ({
 
 // Генерация всех записей. В данной записи i - это номер итерации
 const createPosts = (quantity) => Array(quantity).fill(null).map((item, i) => createPost(i + 1));
-
+const generatedPosts = createPosts(25);
 export {
-  createPosts
+  createPosts,
+  generatedPosts
 };
