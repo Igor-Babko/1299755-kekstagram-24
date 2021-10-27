@@ -1,44 +1,62 @@
-const BigPicture = document.querySelector('.big-picture');
-
-let openBigPicture = (evt) => {
-BigPicture.classList.remove('hidden');
-  document.querySelector('.big-picture__img').src = evt.target.url;
-  document.querySelector('.likes-count').textContent = evt.target.likes;
-  document.querySelector('.comments-count').textContent = evt.target.comments;
-}
+const bigPicture = document.querySelector('.big-picture');
+const pictureCancel = document.querySelector('#picture-cancel');
+const commentsLoader = document.querySelector('.comments-loader');
+const bigPictureCancel = document.querySelector('.big-picture__cancel');
+const picture = document.querySelectorAll('.picture');
+const socialCommentCount = document.querySelector('.social__comment-count');
 
 
-// Реализовать сценарий просмотра фотографий в полноразмерном режиме. В таком режиме пользователь получает несколько дополнительных возможностей: детально рассмотреть изображение, поставить «лайк», почитать комментарии, оставленные другими пользователями.
+const openBigPicture = function(post){
 
-// Заведите модуль, который будет отвечать за отрисовку окна с полноразмерным изображением.
+const socialComments = document.querySelector('.social__comments');
+const socialComment = bigPicture.querySelector('.social__comment');
+const documentFragment = document.createDocumentFragment;
 
-// Для отображения окна нужно удалять класс hidden у элемента .big-picture и каждый раз заполнять его данными о конкретной фотографии:
+    socialComments.innerHTML = '';
 
-// Адрес изображения url подставьте как src изображения внутри блока .big-picture__img.
+    document.body.classList.add('modal-open');
+    bigPicture.classList.remove('hidden');
 
-// Количество лайков likes подставьте как текстовое содержание элемента .likes-count.
+    bigPicture.querySelector('.big-picture__img').src = post.url;
+    bigPicture.querySelector('.likes-count').textContent = post.likes;
+    bigPicture.querySelector('.comments-count').textContent = post.comments.length;
 
-// Количество комментариев comments подставьте как текстовое содержание элемента .comments-count.
+    post.comments.forEach(({message, name, avatar}) => {
+      socialComment.querySelector('.social__picture').src = avatar;
+      socialComment.querySelector('.social__picture').alt = name;
+      socialComment.querySelector('.social__text').textContent = message;
 
-// Список комментариев под фотографией: комментарии должны вставляться в блок .social__comments. Разметка каждого комментария должна выглядеть так:
 
-// <li class="social__comment">
-//     <img
-//         class="social__picture"
-//         src="{{аватар}}"
-//         alt="{{имя комментатора}}"
-//         width="35" height="35">
-//     <p class="social__text">{{текст комментария}}</p>
-// </li>
-// Описание фотографии description вставьте строкой в блок .social__caption.
+      documentFragment.appendChild(socialComment.cloneNode(true));
+    });
 
-// После открытия окна спрячьте блоки счётчика комментариев .social__comment-count и загрузки новых комментариев .comments-loader, добавив им класс hidden, с ними мы разберёмся позже, в другом домашнем задании.
+    socialComments.appendChild(documentFragment);
 
-// После открытия окна добавьте тегу <body> класс modal-open, чтобы контейнер с фотографиями позади не прокручивался при скролле. При закрытии окна не забудьте удалить этот класс.
+    bigPicture.querySelector('.social__caption').textContent = post.description;
+    socialCommentCount.classList.add('hidden');
+    commentsLoader.classList.add('hidden');
 
-// Напишите код для закрытия окна по нажатию клавиши Esc и клике по иконке закрытия.
+    pictureCancel.addEventListener('click', function () {
+      closeBigPhoto();
+    });
 
-// Подключите модуль в проект.
+    const pressEscOnBigPhoto = function(evt){
+      document.addEventListener('keydown', function(evt) {
+      if (evt.key === 'Escape') {
+        closeBigPhoto();
+      }
+      });
+          }
 
-// Как связать модули миниатюр и полноразмерного режима?
-// Задача не имеет одного верного решения, поэтому будет правильным как использование третьего модуля для связки двух других, так и импорт модуля полноразмерных изображений в модуль миниатюр и дальнейшая работа с интерфейсом этого модуля, addEventListener и замыканиями. Последнее решение похоже на демонстрацию по учебному проекту. А первое — с третьим модулем — более сложное из-за отсутствия примера, но самостоятельное. В качестве третьего модуля можно выбрать точку входа, а можно завести отдельный модуль, например «Галерея». Решение за вами.
+
+
+    const closeBigPhoto = function () {
+      bigPicture.classList.add('hidden');
+      document.body.classList.remove('modal-open');
+
+      document.removeEventListener('keydown', pressEscOnBigPhoto);
+    };
+  }
+
+  const test = document.querySelector('.picture');
+  test.addEventListener('click', openBigPicture());

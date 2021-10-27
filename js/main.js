@@ -1,6 +1,8 @@
 
 import {createPosts} from './utils/data.js';
 import '/js/utils/RenderingThumbnails.js';
+import '/js/utils/FullSizePhoto.js';
+
 
 // Модуль отвечающий за масштаб изображения
 // модуль с применением эффекта
