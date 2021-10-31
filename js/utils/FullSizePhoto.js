@@ -7,8 +7,11 @@ const bigPicture = document.querySelector('.big-picture');
 const socialCommentCount = document.querySelector('.social__comment-count');
 const pictureCancel = document.querySelector('#picture-cancel');
 const commentsLoader = document.querySelector('.comments-loader');
+const fieldSet = document.querySelector('fieldset');
 
 pictures.addEventListener('click', (evt) => {
+
+  if(evt.target !== pictures && evt.target !== fieldSet) {
   const pictureElement = evt.target.closest('.picture');
   const arrayPictures = Array.from(document.querySelectorAll('.picture'));
   const index = arrayPictures.indexOf(pictureElement);
@@ -69,4 +72,4 @@ pictures.addEventListener('click', (evt) => {
     document.removeEventListener('keydown', onPopupEscKeydown);
     pictureCancel.removeEventListener('click', closeBigPhoto);
   };
-});
+}});
