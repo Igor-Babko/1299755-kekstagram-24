@@ -3,18 +3,17 @@ import {
 } from './data.js';
 
 const pictures = document.querySelector('.pictures');
+const bigPicture = document.querySelector('.big-picture');
+const socialCommentCount = document.querySelector('.social__comment-count');
+const pictureCancel = document.querySelector('#picture-cancel');
+const commentsLoader = document.querySelector('.comments-loader');
 
 pictures.addEventListener('click', (evt) => {
 
-  const bigPicture = document.querySelector('.big-picture');
-  const socialCommentCount = document.querySelector('.social__comment-count');
-  const pictureCancel = document.querySelector('#picture-cancel');
-  const commentsLoader = document.querySelector('.comments-loader');
   const pictureElement = evt.target.closest('.picture');
-  const ArrayPictures = Array.from(document.querySelectorAll('.picture'));
-  const index = ArrayPictures.indexOf(pictureElement);
+  const arrayPictures = Array.from(document.querySelectorAll('.picture'));
+  const index = arrayPictures.indexOf(pictureElement);
   const data = generatedPosts[index];
-
 
   const socialComments = document.querySelector('.social__comments');
   const documentFragment = document.createDocumentFragment();
@@ -31,15 +30,15 @@ pictures.addEventListener('click', (evt) => {
   data.comments.forEach(({ message, name, avatar}) => {
 
     const comment = document.createElement('li');
-    comment.classList.add('.social__comment');
+    comment.classList.add('social__comment');
 
     const img = document.createElement('img');
-    img.classList.add('.social__picture');
+    img.classList.add('social__picture');
     img.src = avatar;
     img.alt = name;
 
     const p = document.createElement('p');
-    comment.classList.add('.social__text');
+    comment.classList.add('social__text');
     p.textContent = message;
 
     comment.appendChild(img);
