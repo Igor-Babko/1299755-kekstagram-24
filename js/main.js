@@ -1,7 +1,7 @@
 
 import {createPosts} from './utils/data.js';
 import '/js/utils/RenderingThumbnails.js';
-import '/js/utils/FullSizePhoto.js';
+import '/js/utils/fullSizePhoto.js';
 
 createPosts(25);
 

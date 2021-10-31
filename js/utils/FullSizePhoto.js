@@ -50,7 +50,6 @@ pictures.addEventListener('click', (evt) => {
   socialComments.appendChild(documentFragment);
   bigPicture.querySelector('.social__caption').textContent = data.description;
 
-  //Функция открытия большого изображения
 
 
   socialCommentCount.classList.add('hidden');
