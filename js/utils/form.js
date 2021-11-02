@@ -1,140 +1,115 @@
-const MIN_HASHTAG_LENGTH = 2;
-const MAX_HASHTAG_LENGTH = 20;
-const MAX_LENGTH_COMMENT = 140;
-const HASHTAG = '/^#[A-Za-zA-Яа-яЁё0-9]{1,19}$/';
+const MAX_COMMENT_LENGTH = 140;
+const MAX_HASH_LENGTH = 20;
+const MAX_HASH_ARRAY_LENGTH = 5;
 
-const textDescription = document.querySelector('.text__description');
-const imgUploadOverlay = document.querySelector('.img-upload__overlay');
-const uploadFile = document.querySelector('#upload-file');
-const body = document.querySelector('body');
-const uploadCancel = document.querySelector('#upload-cancel');
-const scaleControlValue = document.querySelector('.scale__control--value');
-const textHashtags = document.querySelector('.text__hashtags');
-const firstSymbol = /^#/;
-const oneHash = /#\s/;
-const spaceBeforeHashtag = /\S#/;
+export default function addNewImg() {
+  const body = document.querySelector('body');
+  const imgUploadForm = document.querySelector('.img-upload__form');
+  const uploadFile = imgUploadForm.querySelector('#upload-file');
+  const textHashtags = imgUploadForm.querySelector('.text__hashtags');
+  const textDescription = imgUploadForm.querySelector('.text__description');
+  const imgUploadPreviewImg = imgUploadForm.querySelector('.img-upload__preview-img');
+  const imgUploadOverlay = imgUploadForm.querySelector('.img-upload__overlay');
+  const imgUploadCancel = imgUploadForm.querySelector('.img-upload__cancel');
+
+  const checkStringLength = (max, string) => string.length <= max;
+  const regExp = /[~`!@_()$%^&*+=\-[\]\\';,/{}|\\":<>?]/g;
+
+  const isHasDuplicates = (array) => (new Set(array)).size !== array.length;
 
 
-function onEscKeydown(evt) {
-  if (evt.key === 'Escape') {
-    evt.preventDefault();
-    if (document.activeElement === textDescription || document.activeElement === textHashtags) {
-      evt.stopPropagation;
-    } else {
+
+  const keydownEsc = (evt) => {
+    if (!evt.target.closest('.img-upload__text') && evt.key === 'Escape') {
+      evt.preventDefault();
       closeForm();
     }
-  }
-}
+  };
 
-function openForm() {
-  imgUploadOverlay.classList.remove('hidden');
-  body.classList.add('modal-open');
-  document.addEventListener('keydown', onEscKeydown);
-}
-
-function closeForm() {
-  imgUploadOverlay.classList.add('hidden');
-  document.body.classList.remove('modal-open');
-  document.removeEventListener('keydown', onEscKeydown);
-  uploadCancel.removeEventListener('click', closeForm);
-  uploadFile.value ='';
-  scaleControlValue.value = '55%';
-}
-
-uploadFile.addEventListener('change', ()=>{
-  openForm();
-});
-
-uploadFile.addEventListener('keydown', (evt) => {
-  if (evt.key === 'Enter',(evt)) {
-    openForm();
-  }
-});
-
-uploadCancel.addEventListener ('click', () =>{
-  closeForm();
-});
-
-uploadCancel.addEventListener('keydown', (evt) => {
-  if (evt.key === 'Enter',(evt)) {
+  const clickOnCancelButton = () => {
     closeForm();
-  }
-});
+  };
 
-// const checkHashValidity = ()=> {
-
-
-// }
-
-
-
-
-
-
-
-
-
-
-
-
-// textHashtags.addEventListener('input', () => {
-//   const errors = [];
-//   const textHashtagsValue = textHashtags.value;
-//   const arrayOfHashtags = textHashtags.value.trim().toLowerCase().split(' ').filter((item) => item !== '');
-//   const hasStringDuplicates =  (new Set(arrayOfHashtags)).size !== arrayOfHashtags.length;
-//   const hasSpaceBeforeHash = spaceBeforeHashtag.test(textHashtagsValue);
-//   const isEveryHashtagStartsHash = arrayOfHashtags.every((hashtag) =>firstSymbol.test(hashtag));
-//   const isEveryHashtagLessTwentySymbols = arrayOfHashtags.every((hashtag) => hashtag.length > MAX_HASHTAG_LENGTH);
-//   const isEveryHashtagHasText = arrayOfHashtags.every((hashtag) => oneHash.test(hashtag));
-//   const isEveryHashtagValid = arrayOfHashtags.every((hashtag) => hashtag.match(hashtag.replace('#', '')) || hashtag === '#');
-//   if  (arrayOfHashtags.length > 5){
-//     errors.push('\n- Можно использовать максимум пять хэш-тегов');
-//   }
-//   if (hasStringDuplicates) {
-//     errors.push('\n- Один и тот же хэш-тег не может быть использован дважды');
-
-//   }
-//   if (hasSpaceBeforeHash){
-//     errors.push('\n- Хэш-теги разделяются пробелами');
-//   }
-//   if(!isEveryHashtagStartsHash){
-//     errors.push('\n- Хеш-тег должен начинаться с символа # (решетка)');
-//   }
-//   if(isEveryHashtagLessTwentySymbols){
-//     errors.push('\n- Максимальная длина одного хэш-тега 20 символов, включая решётку');
-//   }
-//   if(!isEveryHashtagHasText){
-//     errors.push('\n- Хеш-тег не может состоять только из одной решётки');
-//   }
-//   if(!isEveryHashtagValid){
-//     errors.push('\n- Хэш-тег не может содержать спецсимволы (#, @, $ и т. п.), символы пунктуации (тире, дефис, запятая и т. п.), эмодзи и т. д.;');
-//   }
-//   textHashtags.setCustomValidity(errors.toString());
-//   console.log(errors);
-//   textHashtags.reportValidity();
-// });
-
-// textHashtags.addEventListener('input', () => {
-
-//   const textHashtagsValueLength = textHashtags.value.length;
-
-//   if (textHashtagsValueLength < MIN_HASHTAG_LENGTH) {
-//     // textHashtags.setCustomValidity('Минимальная длина хэш-тега - 2 символа');
-//     // textDescription.reportValidity();
-//   } else if (textHashtagsValueLength >= MAX_HASHTAG_LENGTH) {
-//     textHashtags.setCustomValidity('Максимальная длина хэш-тега - 20 символов');
-//   } else {
-//     textHashtags.setCustomValidity('');
-//   }
-// });
-
-textDescription.addEventListener('input', () => {
-
-  const textDescriptionValueLength = textDescription.value.length;
-  if (textDescriptionValueLength >= MAX_LENGTH_COMMENT) {
-    textDescription.setCustomValidity('Максимальная длина хэш-тега - 140 символов');
+  const checkCommentsValidity = () => {
+    if (!checkStringLength(MAX_COMMENT_LENGTH, textDescription.value)) {
+      textDescription.setCustomValidity('до 140 символов');
+    } else {
+      textDescription.setCustomValidity('');
+    }
     textDescription.reportValidity();
-  } else {
-    textDescription.setCustomValidity('');
+  };
+
+  const checkHashtagsValidity = () => {
+    textHashtags.value = textHashtags.value.replace(/\s+/g, ' ');
+    const hashArray = textHashtags.value.toLowerCase().split(' ');
+    let error = '';
+
+    hashArray.forEach((hash) => {
+
+      if (hash.length > MAX_HASH_LENGTH) {
+        error = 'Максимум 20 символов в одном хэш-теге';
+      }
+
+      if (hashArray.length > MAX_HASH_ARRAY_LENGTH) {
+        error = 'можно указать максимум 5 хэш-тегов';
+      }
+
+
+      if (hash === '#') {
+        error = 'хеш-тег не может состоять только из решётки';
+      }
+
+      if (!hash.startsWith('#')) {
+        error = 'Первым символом хэш-тега должна быть #';
+      }
+
+      if (regExp.test(hash)) {
+        error = 'В хэш-теге запрещено указывать пробелы, спецсимволы (@, $ и т. п.)';
+      }
+
+      if (isHasDuplicates(hashArray)) {
+        error = 'Нельзя указывать одинаковые хэш-теги';
+      }
+    });
+
+    if (hashArray[0] === '') {
+      textHashtags.value = textHashtags.value.trim();
+    } else if (!error) {
+      textHashtags.setCustomValidity('');
+    } else {
+      textHashtags.setCustomValidity(error);
+    }
+
+    textHashtags.reportValidity();
+  };
+
+  function openForm() {
+    imgUploadOverlay.classList.remove('hidden');
+    body.classList.add('modal-open');
+
+    imgUploadCancel.addEventListener('click', clickOnCancelButton);
+    document.addEventListener('keydown', keydownEsc);
+
+
+    textHashtags.addEventListener('input', checkHashtagsValidity);
+    textDescription.addEventListener('input', checkCommentsValidity);
   }
-});
+
+  function closeForm() {
+    imgUploadOverlay.classList.add('hidden');
+    body.classList.remove('modal-open');
+    imgUploadForm.reset();
+
+    document.removeEventListener('keydown', keydownEsc);
+    imgUploadCancel.removeEventListener('click', clickOnCancelButton);
+
+    textDescription.removeEventListener('input', checkCommentsValidity);
+    textHashtags.removeEventListener('input', checkHashtagsValidity);
+    uploadFile.value = '';
+  }
+
+  uploadFile.addEventListener('change', () => {
+    openForm();
+    imgUploadPreviewImg.src = URL.createObjectURL(uploadFile.files[0]);
+  });
+}
