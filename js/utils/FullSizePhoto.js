@@ -1,3 +1,4 @@
+
 import {
   generatedPosts
 } from './data.js';
@@ -85,3 +86,4 @@ pictures.addEventListener('click', (evt) => {
 
   }
 });
+
