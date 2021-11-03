@@ -16,3 +16,4 @@ generatedPosts.forEach(({url,likes,comments}) => {
 
 pictures.appendChild(documentFragment);
 
+
