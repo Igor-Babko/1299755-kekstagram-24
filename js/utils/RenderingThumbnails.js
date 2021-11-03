@@ -2,7 +2,8 @@ import {generatedPosts} from './data.js';
 
 const templateRandomPictures = document.querySelector('#picture').content.querySelector('.picture');
 
-const renderPosts = ()=>{
+
+
 const documentFragment = document.createDocumentFragment();
 
 const pictures = document.querySelector('.pictures');
@@ -16,7 +17,4 @@ generatedPosts.forEach(({url,likes,comments}) => {
 });
 
 pictures.appendChild(documentFragment);
-};
-export{
-  renderPosts
-}
+
