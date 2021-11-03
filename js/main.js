@@ -2,10 +2,10 @@
 import {createPosts} from './utils/data.js';
 import '/js/utils/RenderingThumbnails.js';
 import '/js/utils/fullSizePhoto.js';
-import addNewImg from '/js/utils/form.js';
+import '/js/utils/form.js';
 
 createPosts(25);
-addNewImg();
+
 
 // Модуль отвечающий за масштаб изображения
 // модуль с применением эффекта

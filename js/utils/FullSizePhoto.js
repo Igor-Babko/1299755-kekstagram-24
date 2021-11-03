@@ -8,9 +8,8 @@ const socialCommentCount = document.querySelector('.social__comment-count');
 const pictureCancel = document.querySelector('#picture-cancel');
 const commentsLoader = document.querySelector('.comments-loader');
 
+
 pictures.addEventListener('click', (evt) => {
-
-
   function onPopupEscKeydown(event) {
     if (event.key === 'Escape') {
       event.preventDefault();
@@ -27,21 +26,26 @@ pictures.addEventListener('click', (evt) => {
 
   if (evt.target.matches(('.picture__img'))) {
     const pictureElement = evt.target.closest('.picture');
+
     const arrayPictures = Array.from(document.querySelectorAll('.picture'));
     const index = arrayPictures.indexOf(pictureElement);
     const data = generatedPosts[index];
 
+
     const socialComments = document.querySelector('.social__comments');
     const documentFragment = document.createDocumentFragment();
-
     socialComments.innerHTML = '';
 
     document.body.classList.add('modal-open');
     bigPicture.classList.remove('hidden');
 
+    const openedComments = 0;
+    const bigPictureCommentsCount = bigPicture.querySelector('.comments-count');
+    bigPictureCommentsCount.textContent = data.comments.length;
     bigPicture.querySelector('.big-picture__img').querySelector('img').src = data.url;
     bigPicture.querySelector('.likes-count').textContent = data.likes;
-    bigPicture.querySelector('.comments-count').textContent = data.comments.length;
+    bigPictureCommentsCount.innerHTML = `${openedComments} из ${bigPictureCommentsCount.textContent}`;
+
 
     data.comments.forEach(({message,name,avatar}) => {
 
@@ -66,12 +70,17 @@ pictures.addEventListener('click', (evt) => {
     socialComments.appendChild(documentFragment);
     bigPicture.querySelector('.social__caption').textContent = data.description;
 
-
-    socialCommentCount.classList.add('hidden');
-    commentsLoader.classList.add('hidden');
+    socialCommentCount.classList.remove('hidden');
+    commentsLoader.classList.remove('hidden');
     document.body.classList.add('modal-open');
     pictureCancel.addEventListener('click', closeBigPhoto);
     document.addEventListener('keydown', onPopupEscKeydown);
+
+    // let socialCommentCountHTML = bigPicture.querySelector('.social__comment-count').innerHTML;
+    // socialCommentCountHTML = ``
+
+    // socialCommentCount.innerHTML('beforeend', `${socialComments.length} из`);
+    // bigPicture.querySelectorAll('.social__comments').classList.add('hidden');
 
 
   }
