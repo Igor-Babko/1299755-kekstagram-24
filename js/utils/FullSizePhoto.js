@@ -39,6 +39,9 @@ function addFiveComments() {
     if ((i + 1) % 5 === 0) {
       break;
     }
+    if(openedComments === data.comments.length){
+      commentsLoader.classList.add('hidden');
+    }
 
   }
   bigPictureCommentsCount.innerHTML = `${openedComments} из ${data.comments.length}`;
