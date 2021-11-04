@@ -28,7 +28,7 @@ const createComment = () => ({
 
 //Функция для генерации массива комментариев случайной длины
 const createComments = () => {
-  const quantity = getRandom(1, 10); //Генерируем случайное количество комментариев (1-10)
+  const quantity = getRandom(1, 20); //Генерируем случайное количество комментариев (1-10)
 
   return Array(quantity).fill(null).map(() => createComment());
 };
