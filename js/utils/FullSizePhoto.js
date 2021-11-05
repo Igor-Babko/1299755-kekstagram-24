@@ -62,6 +62,7 @@ pictures.addEventListener('click', (evt) => {
     document.removeEventListener('keydown', onPopupEscKeydown);
     pictureCancel.removeEventListener('click', closeBigPhoto);
     openedComments = 0;
+
   }
 
   if (evt.target.matches(('.picture__img'))) {
@@ -72,6 +73,7 @@ pictures.addEventListener('click', (evt) => {
     data = generatedPosts[index];
 
     socialComments.innerHTML = '';
+
 
     document.body.classList.add('modal-open');
     bigPicture.classList.remove('hidden');
@@ -92,6 +94,7 @@ pictures.addEventListener('click', (evt) => {
 
 
     addFiveComments();
+
   }
 });
 
