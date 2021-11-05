@@ -3,7 +3,6 @@ import {generatedPosts} from './data.js';
 const templateRandomPictures = document.querySelector('#picture').content.querySelector('.picture');
 
 
-
 const documentFragment = document.createDocumentFragment();
 
 const pictures = document.querySelector('.pictures');

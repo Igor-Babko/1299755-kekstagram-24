@@ -8,7 +8,6 @@ const imgUploadForm = document.querySelector('.img-upload__form');
 const uploadFile = imgUploadForm.querySelector('#upload-file');
 const textHashtags = imgUploadForm.querySelector('.text__hashtags');
 const textDescription = imgUploadForm.querySelector('.text__description');
-const imgUploadPreviewImg = imgUploadForm.querySelector('.img-upload__preview-img');
 const imgUploadOverlay = imgUploadForm.querySelector('.img-upload__overlay');
 const imgUploadCancel = imgUploadForm.querySelector('.img-upload__cancel');
 
@@ -105,5 +104,4 @@ function closeForm() {
 
 uploadFile.addEventListener('change', () => {
   openForm();
-  imgUploadPreviewImg.src = URL.createObjectURL(uploadFile.files[0]);
 });
