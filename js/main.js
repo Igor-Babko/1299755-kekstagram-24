@@ -2,7 +2,7 @@ import {createPosts} from './utils/data.js';
 import '/js/utils/RenderingThumbnails.js';
 import '/js/utils/fullSizePhoto.js';
 import '/js/utils/form.js';
-import '/js/utils/zoom.js';
+import '/js/utils/scale&effects.js';
 
 createPosts(25);
 

@@ -11,6 +11,8 @@ const textDescription = imgUploadForm.querySelector('.text__description');
 const imgUploadOverlay = imgUploadForm.querySelector('.img-upload__overlay');
 const imgUploadCancel = imgUploadForm.querySelector('.img-upload__cancel');
 const imgUploadPreview = document.querySelector('.img-upload__preview img');
+const effectNone = document.querySelector('#effect-none');
+
 
 const checkStringLength = (max, string) => string.length <= max;
 const regExp = /[~`!@_()$%^&*+=\-[\]\\';,/{}|\\":<>?]/g;
@@ -102,6 +104,9 @@ function closeForm() {
   textHashtags.removeEventListener('input', checkHashtagsValidity);
   uploadFile.value = '';
   imgUploadPreview.style.transform = 'scale(1)';
+  effectNone.checked = true;
+
+
 }
 
 uploadFile.addEventListener('change', () => {

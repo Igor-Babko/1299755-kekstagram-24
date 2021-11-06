@@ -67,7 +67,6 @@ pictures.addEventListener('click', (evt) => {
 
   if (evt.target.matches(('.picture__img'))) {
     const pictureElement = evt.target.closest('.picture');
-
     const arrayPictures = Array.from(document.querySelectorAll('.picture'));
     const index = arrayPictures.indexOf(pictureElement);
     data = generatedPosts[index];
