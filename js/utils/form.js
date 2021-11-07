@@ -1,3 +1,4 @@
+import {resetEffects} from './scale&effects.js';
 const MAX_COMMENT_LENGTH = 140;
 const MAX_HASH_LENGTH = 20;
 const MAX_HASH_ARRAY_LENGTH = 5;
@@ -106,7 +107,7 @@ function closeForm() {
   imgUploadPreview.style.transform = 'scale(1)';
   effectNone.checked = true;
 
-
+  resetEffects();
 }
 
 uploadFile.addEventListener('change', () => {

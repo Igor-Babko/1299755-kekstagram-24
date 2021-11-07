@@ -10,12 +10,16 @@ const scaleControlValue = document.querySelector('.scale__control--value');
 const imgUploadPreview = document.querySelector('.img-upload__preview');
 const scaleImg = imgUploadPreview.querySelector('img');
 
+const effectLevelValue = document.querySelector('.effect-level__value');
+const effectsList = document.querySelector('.effects__list');
+const effectLevel = document.querySelector('.effect-level');
+const slider = document.querySelector('.effect-level__slider');
+
 
 // Функционал приближения и отдаления фото
 
 scaleControlSmaller.addEventListener('click', doImgSmaller);
 scaleControlBigger.addEventListener('click', doImgBigger);
-
 
 const renderScalePhoto = (scaleValue) => {
   const scale = +scaleValue.replace(/\D+/, '');
@@ -27,7 +31,6 @@ const renderScalePhoto = (scaleValue) => {
 };
 
 function doImgBigger() {
-
   const currentValue = +scaleControlValue.value.replace(/\D+/, '');
   if (currentValue < MAX_SCALE) {
     scaleControlValue.value = `${currentValue + STEP_SCALE}%`;
@@ -38,7 +41,6 @@ function doImgBigger() {
 }
 
 function doImgSmaller() {
-
   const currentValue = +scaleControlValue.value.replace(/\D+/, '');
   if (currentValue > MIN_SCALE) {
     scaleControlValue.value = `${currentValue - STEP_SCALE}%`;
@@ -49,22 +51,15 @@ function doImgSmaller() {
 }
 
 
-// Функционал добавления эффекта на фото
-
-const effectsRadio = document.querySelector('.effects__radio');
-const effectLevelValue = document.querySelector('.effect-level__value');
-const effectNone = document.querySelector('#effect-none');
-const effectsList = document.querySelector('.effects__list');
-const effectLevel = document.querySelector('.effect-level');
-const sliderElement = document.querySelector('#slider');
+//добавления эффекта на фото
 
 
-noUiSlider.create(sliderElement, {
+noUiSlider.create(slider, {
   range: {
     min: 0,
     max: 1,
   },
-  start: 0,
+  start: 1,
   step: 0.1,
   connect: 'lower',
   format: {
@@ -80,31 +75,27 @@ noUiSlider.create(sliderElement, {
   },
 });
 
-
-const defaultEffectImages = () => {
-  effectsRadio.forEach((effect) => {
-    if (effect.id === 'effect-none') {
-      effect.setAttribute('checked', 'checked');
-    }
-  });
+const resetEffects = () => {
   effectLevel.classList.add('hidden');
-  effectLevelValue.value = '';
-  imgUploadPreview.className = '';
-  imgUploadPreview.style = '';
-  imgUploadPreview.classList.add('img-upload__preview');
+  slider.style.display = 'none';
+  imgUploadPreview.style.filter = '';
+  scaleImg.classList.add('.effects__preview');
+  scaleImg.style.filter = '';
+  scaleImg.classList = '';
 };
 
-const changeEffectImages = (changeEffect, min, max, start, step, set, filter, unit) => {
-  const toUnit = (unit === undefined) ? '' : unit;
-  effectLevel.classList.remove('hidden');
-  imgUploadPreview.className = '';
+resetEffects();
+
+const applyEffect = (start, max, min, step, set, filter, measure) => {
+  slider.style.display = 'block';
+  const measureOfMeasurement = (measure !== undefined) ? measure : '';
+  scaleImg.classList = '';
   imgUploadPreview.style = '';
   effectLevelValue.value = '';
-  imgUploadPreview.classList.add('img-upload__preview');
-  imgUploadPreview.classList.add(`effects__preview--${changeEffect}`);
-  sliderElement.noUiSlider.reset();
-  sliderElement.noUiSlider.set(set);
-  sliderElement.noUiSlider.updateOptions({
+  effectLevel.classList.remove('hidden');
+  slider.noUiSlider.reset();
+  slider.noUiSlider.set(set);
+  slider.noUiSlider.updateOptions({
     range: {
       min: min,
       max: max,
@@ -112,53 +103,38 @@ const changeEffectImages = (changeEffect, min, max, start, step, set, filter, un
     start: start,
     step: step,
   }, true);
-  sliderElement.noUiSlider.on('update', (values, handle) => {
+  slider.noUiSlider.on('update', (values, handle) => {
     effectLevelValue.value = values[handle];
-    imgUploadPreview.style.filter = `${filter}(${values[handle]}${toUnit})`;
+    imgUploadPreview.style.filter = `${filter}(${values[handle]}${measureOfMeasurement})`;
   });
 };
-// const cbChangeEffectImages = (evt) => {
-//   if (evt.target.id === 'effect-chrome') {
-//     changeEffectImages('chrome', 0, 1, 0, 0.1, 0, 'grayscale');
-//   } else if (evt.target.id === 'effect-sepia') {
-//     changeEffectImages('sepia', 0, 1, 0, 0.1, 0, 'sepia');
-//   } else if (evt.target.id === 'effect-marvin') {
-//     changeEffectImages('marvin', 0, 100, 0, 1, 0, 'invert', '%');
-//   } else if (evt.target.id === 'effect-phobos') {
-//     changeEffectImages('phobos', 0, 3, 0, 0.1, 0, 'blur', 'px');
-//   } else if (evt.target.id === 'effect-heat') {
-//     changeEffectImages('heat', 1, 3, 1, 0.1, 1, 'brightness');
-//   } else {
-//     defaultEffectImages();
-//   }
-// };
 
-// sliderElement.style.display = 'none';
-
-sliderElement.noUiSlider.on('update', (_, handle, unencoded) => {
-  effectLevelValue.value = unencoded[handle];
-});
-
-effectsList.addEventListener('click', (evt) => {
-
+effectsList.addEventListener('change', (evt) => {
   if (evt.target.matches('#effect-none')) {
-    defaultEffectImages();
+    resetEffects();
   }
-  if (evt.target.matches('#effect-chrome')) {
-    changeEffectImages('chrome', 0, 1, 0, 0.1, 0, 'grayscale');
+  else if (evt.target.matches('#effect-chrome')) {
+    applyEffect(1, 1, 0, 0.1, 0, 'grayscale');
+    scaleImg.classList.add('.effects__preview--chrome');
   }
-
-  if (evt.target.matches('#effect-sepia')) {
-    changeEffectImages('sepia', 0, 1, 0, 0.1, 0, 'sepia');
+  else if (evt.target.matches('#effect-sepia')) {
+    applyEffect(1, 1, 0, 0.1, 0, 'sepia');
+    scaleImg.classList.add('.effects__preview--sepia');
   }
-
-  if (evt.target.matches('#effect-marvin')) {
-    changeEffectImages('marvin', 0, 100, 0, 1, 0, 'invert', '%');
+  else if (evt.target.matches('#effect-marvin')) {
+    applyEffect(100, 100, 0, 1, 0, 'invert', '%');
+    scaleImg.classList.add('.effects__preview--marvin');
   }
-  if (evt.target.matches('#effect-phobos')) {
-    changeEffectImages('phobos', 0, 3, 0, 0.1, 0, 'blur', 'px');
+  else if (evt.target.matches('#effect-phobos')) {
+    applyEffect(3, 3, 0, 0.1, 0, 'blur', 'px');
+    scaleImg.classList.add('.effects__preview--phobos');
   }
-  if (evt.target.matches('#effect-heat')) {
-    changeEffectImages('heat', 1, 3, 1, 0.1, 1, 'brightness');
+  else if (evt.target.matches('#effect-heat')) {
+    applyEffect(3, 3, 1, 0.1, 1, 'brightness');
+    scaleImg.classList.add('.effects__preview--sepia');
   }
 });
+
+export {
+  resetEffects
+};
