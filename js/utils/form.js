@@ -1,4 +1,4 @@
-import {resetEffects} from './scale&effects.js';
+import {resetEffects, scaleControlSmaller, scaleControlBigger, resizeImg} from './scale&effects.js';
 const MAX_COMMENT_LENGTH = 140;
 const MAX_HASH_LENGTH = 20;
 const MAX_HASH_ARRAY_LENGTH = 5;
@@ -106,6 +106,9 @@ function closeForm() {
   uploadFile.value = '';
   imgUploadPreview.style.transform = 'scale(1)';
   effectNone.checked = true;
+
+  scaleControlSmaller.removeEventListener('click', resizeImg);
+  scaleControlBigger.removeEventListener('click', resizeImg);
 
   resetEffects();
 }
