@@ -62,16 +62,17 @@ pictures.addEventListener('click', (evt) => {
     document.removeEventListener('keydown', onPopupEscKeydown);
     pictureCancel.removeEventListener('click', closeBigPhoto);
     openedComments = 0;
+
   }
 
   if (evt.target.matches(('.picture__img'))) {
     const pictureElement = evt.target.closest('.picture');
-
     const arrayPictures = Array.from(document.querySelectorAll('.picture'));
     const index = arrayPictures.indexOf(pictureElement);
     data = generatedPosts[index];
 
     socialComments.innerHTML = '';
+
 
     document.body.classList.add('modal-open');
     bigPicture.classList.remove('hidden');
@@ -92,6 +93,7 @@ pictures.addEventListener('click', (evt) => {
 
 
     addFiveComments();
+
   }
 });
 

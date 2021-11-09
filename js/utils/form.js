@@ -1,3 +1,4 @@
+import {resetEffects, scaleControlSmaller, scaleControlBigger, resizeImg} from './scale&effects.js';
 const MAX_COMMENT_LENGTH = 140;
 const MAX_HASH_LENGTH = 20;
 const MAX_HASH_ARRAY_LENGTH = 5;
@@ -10,6 +11,9 @@ const textHashtags = imgUploadForm.querySelector('.text__hashtags');
 const textDescription = imgUploadForm.querySelector('.text__description');
 const imgUploadOverlay = imgUploadForm.querySelector('.img-upload__overlay');
 const imgUploadCancel = imgUploadForm.querySelector('.img-upload__cancel');
+const imgUploadPreview = document.querySelector('.img-upload__preview img');
+const effectNone = document.querySelector('#effect-none');
+
 
 const checkStringLength = (max, string) => string.length <= max;
 const regExp = /[~`!@_()$%^&*+=\-[\]\\';,/{}|\\":<>?]/g;
@@ -100,6 +104,13 @@ function closeForm() {
   textDescription.removeEventListener('input', checkCommentsValidity);
   textHashtags.removeEventListener('input', checkHashtagsValidity);
   uploadFile.value = '';
+  imgUploadPreview.style.transform = 'scale(1)';
+  effectNone.checked = true;
+
+  scaleControlSmaller.removeEventListener('click', resizeImg);
+  scaleControlBigger.removeEventListener('click', resizeImg);
+
+  resetEffects();
 }
 
 uploadFile.addEventListener('change', () => {
