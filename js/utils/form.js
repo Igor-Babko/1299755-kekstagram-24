@@ -1,7 +1,10 @@
 import {resetEffects, scaleControlSmaller, scaleControlBigger, resizeImg} from './scale&effects.js';
+// import {dataPostSuccess, dataPostError, showLoadImgMessage, removeLoadImgMessage, sendData} from './server.js';
+
 const MAX_COMMENT_LENGTH = 140;
 const MAX_HASH_LENGTH = 20;
 const MAX_HASH_ARRAY_LENGTH = 5;
+const ERROR_COLOR = '#8B0000';
 
 
 const body = document.querySelector('body');
@@ -13,6 +16,9 @@ const imgUploadOverlay = imgUploadForm.querySelector('.img-upload__overlay');
 const imgUploadCancel = imgUploadForm.querySelector('.img-upload__cancel');
 const imgUploadPreview = document.querySelector('.img-upload__preview img');
 const effectNone = document.querySelector('#effect-none');
+const hashtagInput = imgUploadOverlay.querySelector('.text__hashtags');
+let validate = true;
+
 
 
 const checkStringLength = (max, string) => string.length <= max;
@@ -48,23 +54,27 @@ const checkHashtagsValidity = () => {
 
     if (hash.length > MAX_HASH_LENGTH) {
       error = 'Максимум 20 символов в одном хэш-теге';
-    }
-
-    if (hashArray.length > MAX_HASH_ARRAY_LENGTH) {
+      validate = false;
+    } else if (hashArray.length > MAX_HASH_ARRAY_LENGTH) {
       error = 'можно указать максимум 5 хэш-тегов';
+      validate = false;
     }
 
-
-    if (hash === '#') {
+    else if (hash === '#') {
       error = 'хеш-тег не может состоять только из решётки';
+      validate = false;
     }
 
-    if (!hash.startsWith('#')) {
+    else if (!hash.startsWith('#')) {
       error = 'Первым символом хэш-тега должна быть #';
+      validate = false;
     }
 
-    if (regExp.test(hash)) {
+    else if (regExp.test(hash)) {
       error = 'В хэш-теге запрещено указывать пробелы, спецсимволы (@, $ и т. п.)';
+      validate = false;
+    } else {
+      validate = true;
     }
   });
   if (isHasDuplicates(hashArray)) {
@@ -81,6 +91,18 @@ const checkHashtagsValidity = () => {
   textHashtags.reportValidity();
 };
 
+
+const checkInvalidHandler = () => {
+  if (!validate && hashtagInput.value) {
+    hashtagInput.style.borderColor = ERROR_COLOR;
+  }
+};
+
+const checkValidHandler = function () {
+  hashtagInput.removeAttribute('style');
+};
+
+
 function openForm() {
   imgUploadOverlay.classList.remove('hidden');
   body.classList.add('modal-open');
@@ -91,6 +113,8 @@ function openForm() {
 
   textHashtags.addEventListener('input', checkHashtagsValidity);
   textDescription.addEventListener('input', checkCommentsValidity);
+  hashtagInput.addEventListener('blur', checkInvalidHandler);
+  hashtagInput.addEventListener('keydown', checkValidHandler);
 }
 
 function closeForm() {
@@ -100,10 +124,10 @@ function closeForm() {
 
   document.removeEventListener('keydown', keydownEsc);
   imgUploadCancel.removeEventListener('click', clickOnCancelButton);
-
   textDescription.removeEventListener('input', checkCommentsValidity);
   textHashtags.removeEventListener('input', checkHashtagsValidity);
   uploadFile.value = '';
+  textDescription.value ='';
   imgUploadPreview.style.transform = 'scale(1)';
   effectNone.checked = true;
 
@@ -116,3 +140,23 @@ function closeForm() {
 uploadFile.addEventListener('change', () => {
   openForm();
 });
+
+
+
+
+// const onFormSubmit = (evt) => {
+//   evt.preventDefault();
+//   showLoadImgMessage();
+
+//   sendData(new FormData(evt.target))
+//     .then((response) => {
+//       if (response.ok) {
+//         removeLoadImgMessage();
+//         dataPostSuccess();
+//         closeForm();
+//       }
+//     }).catch(() => {
+//       removeLoadImgMessage();
+//       dataPostError();
+//     });
+// };
