@@ -1,5 +1,13 @@
-import {resetEffects, scaleControlSmaller, scaleControlBigger, resizeImg} from './scale&effects.js';
-// import {dataPostSuccess, dataPostError, showLoadImgMessage, removeLoadImgMessage, sendData} from './server.js';
+import {
+  resetEffects,
+  scaleControlSmaller,
+  scaleControlBigger,
+  resizeImg
+} from './scale&effects.js';
+
+import {showLoadImgMessage, showAlert} from './notifications.js';
+
+import {sendData} from './api.js';
 
 const MAX_COMMENT_LENGTH = 140;
 const MAX_HASH_LENGTH = 20;
@@ -18,7 +26,6 @@ const imgUploadPreview = document.querySelector('.img-upload__preview img');
 const effectNone = document.querySelector('#effect-none');
 const hashtagInput = imgUploadOverlay.querySelector('.text__hashtags');
 let validate = true;
-
 
 
 const checkStringLength = (max, string) => string.length <= max;
@@ -58,19 +65,13 @@ const checkHashtagsValidity = () => {
     } else if (hashArray.length > MAX_HASH_ARRAY_LENGTH) {
       error = 'можно указать максимум 5 хэш-тегов';
       validate = false;
-    }
-
-    else if (hash === '#') {
+    } else if (hash === '#') {
       error = 'хеш-тег не может состоять только из решётки';
       validate = false;
-    }
-
-    else if (!hash.startsWith('#')) {
+    } else if (!hash.startsWith('#')) {
       error = 'Первым символом хэш-тега должна быть #';
       validate = false;
-    }
-
-    else if (regExp.test(hash)) {
+    } else if (regExp.test(hash)) {
       error = 'В хэш-теге запрещено указывать пробелы, спецсимволы (@, $ и т. п.)';
       validate = false;
     } else {
@@ -127,7 +128,7 @@ function closeForm() {
   textDescription.removeEventListener('input', checkCommentsValidity);
   textHashtags.removeEventListener('input', checkHashtagsValidity);
   uploadFile.value = '';
-  textDescription.value ='';
+  textDescription.value = '';
   imgUploadPreview.style.transform = 'scale(1)';
   effectNone.checked = true;
 
@@ -141,7 +142,23 @@ uploadFile.addEventListener('change', () => {
   openForm();
 });
 
+const setUserFormSubmit = (onSuccess) => {
+  imgUploadForm.addEventListener('submit', (evt) => {
+    evt.preventDefault();
+    showLoadImgMessage();
+    sendData(
+      () => onSuccess(),
+      () => showAlert('Не удалось отправить форму. Попробуйте ещё раз'),
+      new FormData(evt.target),
+    );
+  });
+};
 
+export {
+  setUserFormSubmit,
+  closeForm,
+  openForm
+};
 
 
 // const onFormSubmit = (evt) => {
