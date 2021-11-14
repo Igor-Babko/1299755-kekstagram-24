@@ -5,14 +5,20 @@ import {
   resizeImg
 } from './scale&effects.js';
 
-import {showLoadImgMessage, showAlert} from './notifications.js';
+import {
+  showLoadImgMessage,
+  showAlert
+} from './notifications.js';
 
-import {sendData} from './api.js';
+import {
+  sendData
+} from './api.js';
 
 const MAX_COMMENT_LENGTH = 140;
 const MAX_HASH_LENGTH = 20;
 const MAX_HASH_ARRAY_LENGTH = 5;
 const ERROR_COLOR = '#8B0000';
+const REGEXP = /[~`!@_()$%^&*+=\-[\]\\';,/{}|\\":<>?]/g;
 
 
 const body = document.querySelector('body');
@@ -26,10 +32,10 @@ const imgUploadPreview = document.querySelector('.img-upload__preview img');
 const effectNone = document.querySelector('#effect-none');
 const hashtagInput = imgUploadOverlay.querySelector('.text__hashtags');
 let validate = true;
-
+const imgEffectPreview = document.querySelectorAll('.effects__preview');
 
 const checkStringLength = (max, string) => string.length <= max;
-const regExp = /[~`!@_()$%^&*+=\-[\]\\';,/{}|\\":<>?]/g;
+
 
 const isHasDuplicates = (array) => (new Set(array)).size !== array.length;
 const keydownEsc = (evt) => {
@@ -71,7 +77,7 @@ const checkHashtagsValidity = () => {
     } else if (!hash.startsWith('#')) {
       error = 'Первым символом хэш-тега должна быть #';
       validate = false;
-    } else if (regExp.test(hash)) {
+    } else if (REGEXP.test(hash)) {
       error = 'В хэш-теге запрещено указывать пробелы, спецсимволы (@, $ и т. п.)';
       validate = false;
     } else {
@@ -154,8 +160,20 @@ const setUserFormSubmit = (onSuccess) => {
   });
 };
 
+const uploadPicture = () => {
+  uploadFile.addEventListener('change', () => {
+    openForm();
+    const imgUrl = URL.createObjectURL(uploadFile.files[0]);
+    imgUploadPreview.src = imgUrl;
+    imgEffectPreview.forEach((elem) => {
+      elem.style.backgroundImage = `url(${imgUrl})`;
+    });
+  });
+};
+
 export {
   setUserFormSubmit,
   closeForm,
-  openForm
+  openForm,
+  uploadPicture
 };

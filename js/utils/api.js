@@ -1,19 +1,10 @@
-import {
-  showPostSuccessModal,
-  showPostErrorModal,
-  removeLoadImgMessage,
-  showAlert
-} from './notifications.js';
-import {
-  closeForm
-} from './form.js';
-import {
-  startShowPictures
-} from './fullSizePhoto.js';
-import {filterPictures} from './filters.js';
-import {
-  showPhotos
-} from './renderingThumbnails.js';
+import {showPostSuccessModal, showPostErrorModal, removeLoadImgMessage, showAlert} from './notifications.js';
+import {closeForm} from './form.js';
+import {startShowPictures} from './fullSizePhoto.js';
+import {filterForPictures} from './filters.js';
+import {showPhotos} from './renderingThumbnails.js';
+import {uploadPicture} from './form.js';
+
 
 
 const getData = () => {
@@ -22,10 +13,10 @@ const getData = () => {
     .then((data) => {
       showPhotos(data);
       startShowPictures(data);
-      filterPictures(data);
-
+      filterForPictures(data);
+      uploadPicture()
     }).catch((err) => {
-      showAlert(`ошибка сервера - ${err}`);
+      showAlert(`ошибка - ${err}`);
     });
 };
 
