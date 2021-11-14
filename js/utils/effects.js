@@ -22,7 +22,7 @@ const renderScalePhoto = (scaleValue) => {
 };
 
 
-function resizeImg(evt) {
+const resizeImg = (evt) => {
   const currentValue = +scaleControlValue.value.replace(/\D+/, '');
   if (currentValue < MAX_SCALE && evt.target.matches('.scale__control--bigger')) {
     scaleControlValue.value = `${currentValue + STEP_SCALE}%`;
@@ -32,7 +32,7 @@ function resizeImg(evt) {
     scaleControlValue.value = `${currentValue - STEP_SCALE}%`;
     renderScalePhoto(scaleControlValue.value);
   }
-}
+};
 
 scaleControlSmaller.addEventListener('click', resizeImg);
 scaleControlBigger.addEventListener('click', resizeImg);

@@ -37,6 +37,7 @@ const filterForPictures = (data) => {
           i--;
         }
       }
+
       showPhotos(randomData);
     }
   };

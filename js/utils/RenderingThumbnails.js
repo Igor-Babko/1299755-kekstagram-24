@@ -1,14 +1,15 @@
+import {startShowPictures} from './fullSizePhoto.js';
 
 const templateRandomPictures = document.querySelector('#picture').content.querySelector('.picture');
 const pictures = document.querySelector('.pictures');
 const documentFragment = document.createDocumentFragment();
 
-const showPhotos = (massive) => {
+const showPhotos = (pictureData) => {
   const pictureElem = document.querySelectorAll('.picture');
   pictureElem.forEach((elem) => {
     elem.remove();
   });
-  massive.forEach((element) => {
+  pictureData.forEach((element) => {
     const newTemplate = templateRandomPictures.cloneNode(true);
     newTemplate.querySelector('.picture__img').src = element.url;
     newTemplate.querySelector('.picture__likes').textContent = element.likes;
@@ -16,8 +17,8 @@ const showPhotos = (massive) => {
     documentFragment.appendChild(newTemplate);
   });
   pictures.appendChild(documentFragment);
+  startShowPictures(pictureData);
 };
-
 export {
   showPhotos
 };

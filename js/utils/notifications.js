@@ -36,29 +36,6 @@ const removeLoadImgMessage = () => {
 };
 
 
-const showPostSuccessModal = () => {
-  const templateItem = successPopup.content.cloneNode(true);
-  body.append(templateItem);
-  const successModal = document.querySelector('.success');
-
-  const onSuccessModalClose = (evt) => {
-    if (evt.key === 'Escape') {
-      evt.preventDefault();
-      successModal.remove();
-    }
-
-    if(!evt.target.closest('.success__inner') || evt.target.getAttribute('type') === 'button') {
-      successModal.remove();
-    }
-
-    document.removeEventListener('keydown', onSuccessModalClose);
-  };
-
-  successModal.addEventListener('click', onSuccessModalClose);
-  document.addEventListener('keydown', onSuccessModalClose);
-};
-
-
 const showPostErrorModal = () => {
   const templateItem = errorPopup.content.cloneNode(true);
   body.append(templateItem);
@@ -80,5 +57,25 @@ const showPostErrorModal = () => {
   errorClass.addEventListener('click', onErrorModalClose);
   document.addEventListener('keydown', onErrorModalClose);
 };
+const showPostSuccessModal = () => {
+  const templateItem = successPopup.content.cloneNode(true);
+  body.append(templateItem);
+  const successModal = document.querySelector('.success');
 
+  const onSuccessModalClose = (evt) => {
+    if (evt.key === 'Escape') {
+      evt.preventDefault();
+      successModal.remove();
+    }
+
+    if(!evt.target.closest('.success__inner') || evt.target.getAttribute('type') === 'button') {
+      successModal.remove();
+    }
+
+    document.removeEventListener('keydown', onSuccessModalClose);
+  };
+
+  successModal.addEventListener('click', onSuccessModalClose);
+  document.addEventListener('keydown', onSuccessModalClose);
+};
 export {showAlert, showPostSuccessModal, showPostErrorModal, showLoadImgMessage, removeLoadImgMessage};

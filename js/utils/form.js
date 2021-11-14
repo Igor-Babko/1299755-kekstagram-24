@@ -3,7 +3,7 @@ import {
   scaleControlSmaller,
   scaleControlBigger,
   resizeImg
-} from './scale&effects.js';
+} from './effects.js';
 
 import {
   showLoadImgMessage,
@@ -58,17 +58,17 @@ const checkCommentsValidity = () => {
 
 const checkHashtagsValidity = () => {
   textHashtags.value = textHashtags.value.replace(/\s+/g, ' ');
-  const hashArray = textHashtags.value.toLowerCase().split(' ');
+  const hashArrayElements = textHashtags.value.toLowerCase().split(' ');
 
   let error = '';
 
-  hashArray.forEach((hash) => {
+  hashArrayElements.forEach((hash) => {
     hash.trim();
 
     if (hash.length > MAX_HASH_LENGTH) {
       error = 'Максимум 20 символов в одном хэш-теге';
       validate = false;
-    } else if (hashArray.length > MAX_HASH_ARRAY_LENGTH) {
+    } else if (hashArrayElements.length > MAX_HASH_ARRAY_LENGTH) {
       error = 'можно указать максимум 5 хэш-тегов';
       validate = false;
     } else if (hash === '#') {
@@ -84,10 +84,10 @@ const checkHashtagsValidity = () => {
       validate = true;
     }
   });
-  if (isHasDuplicates(hashArray)) {
+  if (isHasDuplicates(hashArrayElements)) {
     error = 'Нельзя указывать одинаковые хэш-теги';
   }
-  if (hashArray[0] === '') {
+  if (hashArrayElements[0] === '') {
     textHashtags.value = textHashtags.value.trim();
   } else if (!error) {
     textHashtags.setCustomValidity('');

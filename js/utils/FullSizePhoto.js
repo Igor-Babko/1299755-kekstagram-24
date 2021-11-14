@@ -7,11 +7,12 @@ const commentsLoader = document.querySelector('.comments-loader');
 const bigPictureCommentsCount = bigPicture.querySelector('.comments-count');
 const socialComments = document.querySelector('.social__comments');
 const documentFragment = document.createDocumentFragment();
+let bigPictureCommentsCountCalculate;
 let importedData;
 let openedComments = 0;
 
 
-function addFiveComments() {
+const addFiveComments = () => {
   for (let i = openedComments; i < importedData.comments.length; i++) {
     openedComments += 1;
     const comment = document.createElement('li');
@@ -28,23 +29,23 @@ function addFiveComments() {
 
     comment.appendChild(img);
     comment.appendChild(p);
-
     documentFragment.appendChild(comment);
-
     if (openedComments === importedData.comments.length) {
       commentsLoader.classList.add('hidden');
+      commentsLoader.removeEventListener('click', addFiveComments);
     }
-    if ((i + 1) % 5 === 0) {
+    if ((i+1) % 5 === 0) {
       break;
     }
   }
-  bigPictureCommentsCount.innerHTML = `${openedComments} из ${importedData.comments.length}`;
+  bigPictureCommentsCountCalculate = `${openedComments} из ${importedData.comments.length}`;
+  bigPictureCommentsCount.textContent =  bigPictureCommentsCountCalculate;
   socialComments.appendChild(documentFragment);
-}
+};
 
-function onPopupEscKeydown(event) {
-  if (event.key === 'Escape') {
-    event.preventDefault();
+function onPopupEscKeydown(evt) {
+  if (evt.key === 'Escape') {
+    evt.preventDefault();
     closeBigPhoto();
   }
 }
@@ -55,9 +56,12 @@ function closeBigPhoto() {
   document.removeEventListener('keydown', onPopupEscKeydown);
   pictureCancel.removeEventListener('click', closeBigPhoto);
   openedComments = 0;
+
 }
+
 const startShowPictures = (data) => {
   pictures.addEventListener('click', (evt) => {
+
     if (evt.target.matches(('.picture__img'))) {
       const pictureElement = evt.target.closest('.picture');
       const arrayPictures = Array.from(document.querySelectorAll('.picture'));
@@ -65,7 +69,6 @@ const startShowPictures = (data) => {
       importedData = data[index];
 
       socialComments.innerHTML = '';
-
 
       document.body.classList.add('modal-open');
       bigPicture.classList.remove('hidden');
@@ -83,12 +86,13 @@ const startShowPictures = (data) => {
       document.addEventListener('keydown', onPopupEscKeydown);
 
       commentsLoader.addEventListener('click', addFiveComments);
-
-      addFiveComments();
-
+      openedComments = 0;
+      if (openedComments === 0) {
+        addFiveComments();
+      }
     }
   });
 };
 export {
-  startShowPictures
+  startShowPictures,closeBigPhoto
 };

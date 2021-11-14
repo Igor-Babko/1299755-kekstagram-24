@@ -13,11 +13,5 @@ const getRandom = (minValue, maxValue) => {
 
 const checkDuplicates = (data) => (new Set(data)).size !== data.length;
 
-//Функция для проверки максимальной длины строки
 
-const checkFieldLength = function (string, maxLength) {
-  return maxLength >= string.length;
-};
-
-
-export {getRandom, checkFieldLength, checkDuplicates};
+export {getRandom, checkDuplicates};
