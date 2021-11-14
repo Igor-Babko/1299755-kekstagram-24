@@ -1,20 +1,31 @@
 import {
-  dataList
-} from './renderingThumbnails.js';
-import {
   showPostSuccessModal,
   showPostErrorModal,
-  removeLoadImgMessage
+  removeLoadImgMessage,
+  showAlert
 } from './notifications.js';
 import {
   closeForm
 } from './form.js';
+import {
+  startShowPictures
+} from './fullSizePhoto.js';
+import {filterPictures} from './filters.js';
+import {
+  showPhotos
+} from './renderingThumbnails.js';
+
 
 const getData = () => {
   fetch('https://24.javascript.pages.academy/kekstagram/data')
     .then((response) => response.json())
     .then((data) => {
-      dataList(data);
+      showPhotos(data);
+      startShowPictures(data);
+      filterPictures(data);
+
+    }).catch((err) => {
+      showAlert(`ошибка сервера - ${err}`);
     });
 };
 

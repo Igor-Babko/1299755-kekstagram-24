@@ -1,11 +1,13 @@
 
 const templateRandomPictures = document.querySelector('#picture').content.querySelector('.picture');
-
+const pictures = document.querySelector('.pictures');
 const documentFragment = document.createDocumentFragment();
 
-const pictures = document.querySelector('.pictures');
-
-const renderMassivePhoto = (massive) => {
+const showPhotos = (massive) => {
+  const pictureElem = document.querySelectorAll('.picture');
+  pictureElem.forEach((elem) => {
+    elem.remove();
+  });
   massive.forEach((element) => {
     const newTemplate = templateRandomPictures.cloneNode(true);
     newTemplate.querySelector('.picture__img').src = element.url;
@@ -16,11 +18,6 @@ const renderMassivePhoto = (massive) => {
   pictures.appendChild(documentFragment);
 };
 
-const dataList = (data) => {
-  renderMassivePhoto(data);
-};
-
 export {
-  renderMassivePhoto,
-  dataList
+  showPhotos
 };

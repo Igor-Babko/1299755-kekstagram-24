@@ -159,21 +159,3 @@ export {
   closeForm,
   openForm
 };
-
-
-// const onFormSubmit = (evt) => {
-//   evt.preventDefault();
-//   showLoadImgMessage();
-
-//   sendData(new FormData(evt.target))
-//     .then((response) => {
-//       if (response.ok) {
-//         removeLoadImgMessage();
-//         dataPostSuccess();
-//         closeForm();
-//       }
-//     }).catch(() => {
-//       removeLoadImgMessage();
-//       dataPostError();
-//     });
-// };
