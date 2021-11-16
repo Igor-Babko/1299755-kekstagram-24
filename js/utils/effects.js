@@ -58,7 +58,7 @@ const resetEffects = () => {
   effectLevel.classList.add('hidden');
   slider.style.display = 'none';
   imgUploadPreview.style.filter = '';
-  scaleImg.classList.add('.effects__preview');
+  scaleImg.classList.add('effects__preview');
   scaleImg.style.filter = '';
   scaleImg.classList = '';
 };
@@ -92,19 +92,19 @@ effectsList.addEventListener('change', (evt) => {
     resetEffects();
   } else if (evt.target.matches('#effect-chrome')) {
     applyEffect(1, 1, 0, 0.1, 0, 'grayscale');
-    scaleImg.classList.add('.effects__preview--chrome');
+    scaleImg.classList.add('effects__preview--chrome');
   } else if (evt.target.matches('#effect-sepia')) {
     applyEffect(1, 1, 0, 0.1, 0, 'sepia');
-    scaleImg.classList.add('.effects__preview--sepia');
+    scaleImg.classList.add('effects__preview--sepia');
   } else if (evt.target.matches('#effect-marvin')) {
     applyEffect(100, 100, 0, 1, 0, 'invert', '%');
-    scaleImg.classList.add('.effects__preview--marvin');
+    scaleImg.classList.add('effects__preview--marvin');
   } else if (evt.target.matches('#effect-phobos')) {
     applyEffect(3, 3, 0, 0.1, 0, 'blur', 'px');
-    scaleImg.classList.add('.effects__preview--phobos');
+    scaleImg.classList.add('effects__preview--phobos');
   } else if (evt.target.matches('#effect-heat')) {
     applyEffect(3, 3, 1, 0.1, 1, 'brightness');
-    scaleImg.classList.add('.effects__preview--sepia');
+    scaleImg.classList.add('effects__preview--sepia');
   }
 });
 

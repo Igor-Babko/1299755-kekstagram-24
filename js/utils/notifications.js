@@ -74,7 +74,6 @@ const showPostSuccessModal = () => {
 
     document.removeEventListener('keydown', onSuccessModalClose);
   };
-
   successModal.addEventListener('click', onSuccessModalClose);
   document.addEventListener('keydown', onSuccessModalClose);
 };
