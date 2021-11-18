@@ -14,6 +14,12 @@ import {
   sendData
 } from './api.js';
 
+import {
+  checkDuplicates
+} from './utils.js';
+
+
+
 const MAX_COMMENT_LENGTH = 140;
 const MAX_HASH_LENGTH = 20;
 const MAX_HASH_ARRAY_LENGTH = 5;
@@ -32,19 +38,18 @@ const imgUploadPreview = document.querySelector('.img-upload__preview img');
 const effectNone = document.querySelector('#effect-none');
 const hashtagInput = imgUploadOverlay.querySelector('.text__hashtags');
 let validate = true;
-const imgEffectPreview = document.querySelectorAll('.effects__preview');
+const effectPreviewImages = document.querySelectorAll('.effects__preview');
 
 const checkStringLength = (max, string) => string.length <= max;
 
 
-const isHasDuplicates = (array) => (new Set(array)).size !== array.length;
-const keydownEsc = (evt) => {
+const onKeydownEsc = (evt) => {
   if (!evt.target.closest('.img-upload__text') && evt.key === 'Escape') {
     evt.preventDefault();
     closeForm();
   }
 };
-const clickOnCancelButton = () => {
+const onClickCancelButton = () => {
   closeForm();
 };
 const checkCommentsValidity = () => {
@@ -84,7 +89,7 @@ const checkHashtagsValidity = () => {
       validate = true;
     }
   });
-  if (isHasDuplicates(hashArrayElements)) {
+  if (checkDuplicates(hashArrayElements)) {
     error = 'Нельзя указывать одинаковые хэш-теги';
   }
   if (hashArrayElements[0] === '') {
@@ -114,8 +119,8 @@ function openForm() {
   imgUploadOverlay.classList.remove('hidden');
   body.classList.add('modal-open');
 
-  imgUploadCancel.addEventListener('click', clickOnCancelButton);
-  document.addEventListener('keydown', keydownEsc);
+  imgUploadCancel.addEventListener('click', onClickCancelButton);
+  document.addEventListener('keydown', onKeydownEsc);
 
 
   textHashtags.addEventListener('input', checkHashtagsValidity);
@@ -129,8 +134,8 @@ function closeForm() {
   body.classList.remove('modal-open');
   imgUploadForm.reset();
 
-  document.removeEventListener('keydown', keydownEsc);
-  imgUploadCancel.removeEventListener('click', clickOnCancelButton);
+  document.removeEventListener('keydown', onKeydownEsc);
+  imgUploadCancel.removeEventListener('click', onClickCancelButton);
   textDescription.removeEventListener('input', checkCommentsValidity);
   textHashtags.removeEventListener('input', checkHashtagsValidity);
   uploadFile.value = '';
@@ -165,7 +170,7 @@ const uploadPicture = () => {
     openForm();
     const imgUrl = URL.createObjectURL(uploadFile.files[0]);
     imgUploadPreview.src = imgUrl;
-    imgEffectPreview.forEach((elem) => {
+    effectPreviewImages.forEach((elem) => {
       elem.style.backgroundImage = `url(${imgUrl})`;
     });
   });

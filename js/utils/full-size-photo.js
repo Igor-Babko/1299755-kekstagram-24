@@ -7,7 +7,7 @@ const commentsLoader = document.querySelector('.comments-loader');
 const bigPictureCommentsCount = bigPicture.querySelector('.comments-count');
 const socialComments = document.querySelector('.social__comments');
 const documentFragment = document.createDocumentFragment();
-let bigPictureCommentsCountCalculate;
+let bigPictureComments;
 let importedData;
 let openedComments = 0;
 
@@ -38,8 +38,8 @@ const addFiveComments = () => {
       break;
     }
   }
-  bigPictureCommentsCountCalculate = `${openedComments} из ${importedData.comments.length}`;
-  bigPictureCommentsCount.textContent =  bigPictureCommentsCountCalculate;
+  bigPictureComments = `${openedComments} из ${importedData.comments.length}`;
+  bigPictureCommentsCount.textContent =  bigPictureComments;
   socialComments.appendChild(documentFragment);
 };
 
@@ -64,8 +64,8 @@ const startShowPictures = (data) => {
 
     if (evt.target.matches(('.picture__img'))) {
       const pictureElement = evt.target.closest('.picture');
-      const arrayPictures = Array.from(document.querySelectorAll('.picture'));
-      const index = arrayPictures.indexOf(pictureElement);
+      const allPictures = Array.from(document.querySelectorAll('.picture'));
+      const index = allPictures.indexOf(pictureElement);
       importedData = data[index];
 
       socialComments.innerHTML = '';

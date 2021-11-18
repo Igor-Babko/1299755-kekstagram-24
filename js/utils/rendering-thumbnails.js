@@ -5,8 +5,8 @@ const pictures = document.querySelector('.pictures');
 const documentFragment = document.createDocumentFragment();
 
 const showPhotos = (pictureData) => {
-  const pictureElem = document.querySelectorAll('.picture');
-  pictureElem.forEach((elem) => {
+  const collectionOfPictures = document.querySelectorAll('.picture');
+  collectionOfPictures.forEach((elem) => {
     elem.remove();
   });
   pictureData.forEach((element) => {
