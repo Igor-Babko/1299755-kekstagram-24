@@ -19,7 +19,6 @@ import {
 } from './utils.js';
 
 
-
 const MAX_COMMENT_LENGTH = 140;
 const MAX_HASH_LENGTH = 20;
 const MAX_HASH_ARRAY_LENGTH = 5;
@@ -43,15 +42,13 @@ const effectPreviewImages = document.querySelectorAll('.effects__preview');
 const checkStringLength = (max, string) => string.length <= max;
 
 
-const onKeydownEsc = (evt) => {
+const keyDownEscHandler = (evt) => {
   if (!evt.target.closest('.img-upload__text') && evt.key === 'Escape') {
     evt.preventDefault();
     closeForm();
   }
 };
-const onClickCancelButton = () => {
-  closeForm();
-};
+
 const checkCommentsValidity = () => {
   if (!checkStringLength(MAX_COMMENT_LENGTH, textDescription.value)) {
     textDescription.setCustomValidity('до 140 символов');
@@ -63,17 +60,17 @@ const checkCommentsValidity = () => {
 
 const checkHashtagsValidity = () => {
   textHashtags.value = textHashtags.value.replace(/\s+/g, ' ');
-  const hashArrayElements = textHashtags.value.toLowerCase().split(' ');
+  const hashElements = textHashtags.value.toLowerCase().split(' ');
 
   let error = '';
 
-  hashArrayElements.forEach((hash) => {
+  hashElements.forEach((hash) => {
     hash.trim();
 
     if (hash.length > MAX_HASH_LENGTH) {
       error = 'Максимум 20 символов в одном хэш-теге';
       validate = false;
-    } else if (hashArrayElements.length > MAX_HASH_ARRAY_LENGTH) {
+    } else if (hashElements.length > MAX_HASH_ARRAY_LENGTH) {
       error = 'можно указать максимум 5 хэш-тегов';
       validate = false;
     } else if (hash === '#') {
@@ -85,14 +82,16 @@ const checkHashtagsValidity = () => {
     } else if (REGEXP.test(hash)) {
       error = 'В хэш-теге запрещено указывать пробелы, спецсимволы (@, $ и т. п.)';
       validate = false;
-    } else {
+    } else if (hash.indexOf('#', 1) > 0) {
+      error = 'Хэштеги должны разделяться пробелом';
+    }else {
       validate = true;
     }
   });
-  if (checkDuplicates(hashArrayElements)) {
+  if (checkDuplicates(hashElements)) {
     error = 'Нельзя указывать одинаковые хэш-теги';
   }
-  if (hashArrayElements[0] === '') {
+  if (hashElements[0] === '') {
     textHashtags.value = textHashtags.value.trim();
   } else if (!error) {
     textHashtags.setCustomValidity('');
@@ -119,8 +118,8 @@ function openForm() {
   imgUploadOverlay.classList.remove('hidden');
   body.classList.add('modal-open');
 
-  imgUploadCancel.addEventListener('click', onClickCancelButton);
-  document.addEventListener('keydown', onKeydownEsc);
+  imgUploadCancel.addEventListener('click', closeForm);
+  document.addEventListener('keydown', keyDownEscHandler);
 
 
   textHashtags.addEventListener('input', checkHashtagsValidity);
@@ -134,8 +133,8 @@ function closeForm() {
   body.classList.remove('modal-open');
   imgUploadForm.reset();
 
-  document.removeEventListener('keydown', onKeydownEsc);
-  imgUploadCancel.removeEventListener('click', onClickCancelButton);
+  document.removeEventListener('keydown', keyDownEscHandler);
+  imgUploadCancel.removeEventListener('click', closeForm);
   textDescription.removeEventListener('input', checkCommentsValidity);
   textHashtags.removeEventListener('input', checkHashtagsValidity);
   uploadFile.value = '';

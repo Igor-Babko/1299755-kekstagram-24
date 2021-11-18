@@ -7,7 +7,7 @@ import {
 } from './debounce.js';
 import {
   showPhotos
-} from './renderingThumbnails.js';
+} from './rendering-thumbnails.js';
 
 const DATA_RANDOM_LENGTH = 10;
 

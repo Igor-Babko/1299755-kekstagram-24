@@ -1,4 +1,4 @@
-import {startShowPictures} from './fullSizePhoto.js';
+import {startShowPictures} from './full-size-photo.js';
 
 const templateRandomPictures = document.querySelector('#picture').content.querySelector('.picture');
 const pictures = document.querySelector('.pictures');

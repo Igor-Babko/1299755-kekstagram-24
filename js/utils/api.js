@@ -5,9 +5,9 @@ import {showPostSuccessModal, showPostErrorModal, removeLoadImgMessage, showAler
 import {closeForm} from './form.js';
 // import {startShowPictures} from './fullSizePhoto.js';
 import {filterForPictures} from './filters.js';
-import {showPhotos} from './renderingThumbnails.js';
+import {showPhotos} from './rendering-thumbnails.js';
 import {uploadPicture} from './form.js';
-import {closeBigPhoto} from './fullSizePhoto.js';
+import {closeBigPhoto} from './full-size-photo.js';
 
 const getData = () => {
   fetch(GET_DATA)
