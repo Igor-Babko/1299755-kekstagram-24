@@ -12,7 +12,7 @@ import {
 const DATA_RANDOM_LENGTH = 10;
 
 
-const filterForPictures = (data) => {
+const filterPictures = (data) => {
   const imgFilters = document.querySelector('.img-filters');
   const imgFiltersForm = document.querySelector('.img-filters__form');
   const imgFiltersButtons = document.querySelectorAll('.img-filters__button');
@@ -42,7 +42,7 @@ const filterForPictures = (data) => {
     }
   };
 
-  const onFiltersClick = (evt) => {
+  const filtersClickHandler = (evt) => {
     imgFiltersButtons.forEach((btn) => {
       btn.classList.remove('img-filters__button--active');
     });
@@ -54,9 +54,9 @@ const filterForPictures = (data) => {
     }
   };
 
-  imgFiltersForm.addEventListener('click', debounce(onFiltersClick));
+  imgFiltersForm.addEventListener('click', debounce(filtersClickHandler));
 };
 
 export{
-  filterForPictures
+  filterPictures
 };

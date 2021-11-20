@@ -2,7 +2,7 @@ import {
   resetEffects,
   scaleControlSmaller,
   scaleControlBigger,
-  resizeImg
+  resizeImgHandler
 } from './effects.js';
 
 import {
@@ -49,7 +49,7 @@ const keyDownEscHandler = (evt) => {
   }
 };
 
-const checkCommentsValidity = () => {
+const checkCommentsValidityHandler = () => {
   if (!checkStringLength(MAX_COMMENT_LENGTH, textDescription.value)) {
     textDescription.setCustomValidity('до 140 символов');
   } else {
@@ -58,7 +58,7 @@ const checkCommentsValidity = () => {
   textDescription.reportValidity();
 };
 
-const checkHashtagsValidity = () => {
+const checkHashtagsValidityHandler = () => {
   textHashtags.value = textHashtags.value.replace(/\s+/g, ' ');
   const hashElements = textHashtags.value.toLowerCase().split(' ');
 
@@ -84,7 +84,7 @@ const checkHashtagsValidity = () => {
       validate = false;
     } else if (hash.indexOf('#', 1) > 0) {
       error = 'Хэштеги должны разделяться пробелом';
-    }else {
+    } else {
       validate = true;
     }
   });
@@ -93,17 +93,13 @@ const checkHashtagsValidity = () => {
   }
   if (hashElements[0] === '') {
     textHashtags.value = textHashtags.value.trim();
-  } else if (!error) {
-    textHashtags.setCustomValidity('');
-  } else {
-    textHashtags.setCustomValidity(error);
-  }
+  } textHashtags.setCustomValidity(!error ? '' : error);
 
   textHashtags.reportValidity();
 };
 
 
-const checkInvalidHandler = () => {
+const hastagsBlurHandler = () => {
   if (!validate && hashtagInput.value) {
     hashtagInput.style.borderColor = ERROR_COLOR;
   }
@@ -118,13 +114,13 @@ function openForm() {
   imgUploadOverlay.classList.remove('hidden');
   body.classList.add('modal-open');
 
-  imgUploadCancel.addEventListener('click', closeForm);
+  imgUploadCancel.addEventListener('click', closeFormHandler);
   document.addEventListener('keydown', keyDownEscHandler);
 
 
-  textHashtags.addEventListener('input', checkHashtagsValidity);
-  textDescription.addEventListener('input', checkCommentsValidity);
-  hashtagInput.addEventListener('blur', checkInvalidHandler);
+  textHashtags.addEventListener('input', checkHashtagsValidityHandler);
+  textDescription.addEventListener('input', checkCommentsValidityHandler);
+  hashtagInput.addEventListener('blur', hastagsBlurHandler);
   hashtagInput.addEventListener('keydown', checkValidHandler);
 }
 
@@ -134,19 +130,24 @@ function closeForm() {
   imgUploadForm.reset();
 
   document.removeEventListener('keydown', keyDownEscHandler);
-  imgUploadCancel.removeEventListener('click', closeForm);
-  textDescription.removeEventListener('input', checkCommentsValidity);
-  textHashtags.removeEventListener('input', checkHashtagsValidity);
+  imgUploadCancel.removeEventListener('click', closeFormHandler);
+  textDescription.removeEventListener('input', checkCommentsValidityHandler);
+  textHashtags.removeEventListener('input', checkHashtagsValidityHandler);
   uploadFile.value = '';
   textDescription.value = '';
   imgUploadPreview.style.transform = 'scale(1)';
   effectNone.checked = true;
 
-  scaleControlSmaller.removeEventListener('click', resizeImg);
-  scaleControlBigger.removeEventListener('click', resizeImg);
+  scaleControlSmaller.removeEventListener('click', resizeImgHandler);
+  scaleControlBigger.removeEventListener('click', resizeImgHandler);
 
   resetEffects();
 }
+
+function closeFormHandler() {
+  closeForm();
+}
+
 
 uploadFile.addEventListener('change', () => {
   openForm();

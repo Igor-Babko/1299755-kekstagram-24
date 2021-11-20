@@ -41,40 +41,49 @@ const showPostErrorModal = () => {
   body.append(templateItem);
   const errorClass = document.querySelector('.error');
 
-  const onErrorModalClose = (evt) => {
+  const errorModalClose = (evt) => {
     if (evt.key === 'Escape') {
       evt.preventDefault();
       errorClass.remove();
     }
 
-    if(!evt.target.closest('.error__inner') || evt.target.getAttribute('type') === 'button') {
+    if (!evt.target.closest('.error__inner') || evt.target.getAttribute('type') === 'button') {
       errorClass.remove();
     }
 
-    document.removeEventListener('keydown', onErrorModalClose);
+    document.removeEventListener('keydown', errorModalCloseHandler);
   };
 
-  errorClass.addEventListener('click', onErrorModalClose);
-  document.addEventListener('keydown', onErrorModalClose);
+  function errorModalCloseHandler() {
+    errorModalClose();
+  }
+  errorClass.addEventListener('click', errorModalCloseHandler);
+  document.addEventListener('keydown', errorModalCloseHandler);
 };
 const showPostSuccessModal = () => {
   const templateItem = successPopup.content.cloneNode(true);
   body.append(templateItem);
   const successModal = document.querySelector('.success');
 
-  const onSuccessModalClose = (evt) => {
+  const successModalCloseHandler = (evt) => {
     if (evt.key === 'Escape') {
       evt.preventDefault();
       successModal.remove();
     }
 
-    if(!evt.target.closest('.success__inner') || evt.target.getAttribute('type') === 'button') {
+    if (!evt.target.closest('.success__inner') || evt.target.getAttribute('type') === 'button') {
       successModal.remove();
     }
 
-    document.removeEventListener('keydown', onSuccessModalClose);
+    document.removeEventListener('keydown', successModalCloseHandler);
   };
-  successModal.addEventListener('click', onSuccessModalClose);
-  document.addEventListener('keydown', onSuccessModalClose);
+  successModal.addEventListener('click', successModalCloseHandler);
+  document.addEventListener('keydown', successModalCloseHandler);
 };
-export {showAlert, showPostSuccessModal, showPostErrorModal, showLoadImgMessage, removeLoadImgMessage};
+export {
+  showAlert,
+  showPostSuccessModal,
+  showPostErrorModal,
+  showLoadImgMessage,
+  removeLoadImgMessage
+};

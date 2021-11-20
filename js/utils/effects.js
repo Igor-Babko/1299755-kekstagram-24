@@ -22,7 +22,7 @@ const renderScalePhoto = (scaleValue) => {
 };
 
 
-const resizeImg = (evt) => {
+const resizeImgHandler = (evt) => {
   const currentValue = +scaleControlValue.value.replace(/\D+/, '');
   if (currentValue < MAX_SCALE && evt.target.matches('.scale__control--bigger')) {
     scaleControlValue.value = `${currentValue + STEP_SCALE}%`;
@@ -34,8 +34,9 @@ const resizeImg = (evt) => {
   }
 };
 
-scaleControlSmaller.addEventListener('click', resizeImg);
-scaleControlBigger.addEventListener('click', resizeImg);
+
+scaleControlSmaller.addEventListener('click', resizeImgHandler);
+scaleControlBigger.addEventListener('click', resizeImgHandler);
 
 
 //добавления фильтра на фото
@@ -57,10 +58,9 @@ noUiSlider.create(slider, {
 const resetEffects = () => {
   effectLevel.classList.add('hidden');
   slider.style.display = 'none';
-  imgUploadPreview.style.filter = '';
-  scaleImg.classList.add('effects__preview');
   scaleImg.style.filter = '';
-  scaleImg.classList = '';
+  scaleImg.classList.add('effects__preview');
+  scaleImg.className = '';
 };
 
 resetEffects();
@@ -68,7 +68,7 @@ resetEffects();
 const applyEffect = (start, max, min, step, set, filter, measure = '') => {
   slider.style.display = 'block';
   scaleImg.classList = '';
-  imgUploadPreview.style = '';
+  scaleImg.style = '';
   effectLevelValue.value = '';
   effectLevel.classList.remove('hidden');
   slider.noUiSlider.reset();
@@ -83,7 +83,7 @@ const applyEffect = (start, max, min, step, set, filter, measure = '') => {
   }, true);
   slider.noUiSlider.on('update', (values, handle) => {
     effectLevelValue.value = values[handle];
-    imgUploadPreview.style.filter = `${filter}(${values[handle]}${measure})`;
+    scaleImg.style.filter = `${filter}(${values[handle]}${measure})`;
   });
 };
 
@@ -112,5 +112,5 @@ export {
   resetEffects,
   scaleControlSmaller,
   scaleControlBigger,
-  resizeImg
+  resizeImgHandler
 };

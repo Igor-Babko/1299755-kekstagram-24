@@ -7,6 +7,7 @@ const commentsLoader = document.querySelector('.comments-loader');
 const bigPictureCommentsCount = bigPicture.querySelector('.comments-count');
 const socialComments = document.querySelector('.social__comments');
 const documentFragment = document.createDocumentFragment();
+const fiveComments = 5;
 let bigPictureComments;
 let importedData;
 let openedComments = 0;
@@ -32,9 +33,9 @@ const addFiveComments = () => {
     documentFragment.appendChild(comment);
     if (openedComments === importedData.comments.length) {
       commentsLoader.classList.add('hidden');
-      commentsLoader.removeEventListener('click', addFiveComments);
+      commentsLoader.removeEventListener('click', addFiveCommentsHandler);
     }
-    if ((i+1) % 5 === 0) {
+    if ((i+1) % fiveComments === 0) {
       break;
     }
   }
@@ -43,20 +44,28 @@ const addFiveComments = () => {
   socialComments.appendChild(documentFragment);
 };
 
-function onPopupEscKeydown(evt) {
+function addFiveCommentsHandler(){
+  addFiveComments();
+}
+
+function popupEscKeydownHandler(evt) {
   if (evt.key === 'Escape') {
     evt.preventDefault();
     closeBigPhoto();
   }
 }
 
+
 function closeBigPhoto() {
   bigPicture.classList.add('hidden');
   document.body.classList.remove('modal-open');
-  document.removeEventListener('keydown', onPopupEscKeydown);
-  pictureCancel.removeEventListener('click', closeBigPhoto);
+  document.removeEventListener('keydown', popupEscKeydownHandler);
+  pictureCancel.removeEventListener('click', closeBigPhotoHandler);
   openedComments = 0;
 
+}
+function closeBigPhotoHandler() {
+  closeBigPhoto();
 }
 
 const startShowPictures = (data) => {
@@ -82,10 +91,10 @@ const startShowPictures = (data) => {
       socialCommentCount.classList.remove('hidden');
       commentsLoader.classList.remove('hidden');
       document.body.classList.add('modal-open');
-      pictureCancel.addEventListener('click', closeBigPhoto);
-      document.addEventListener('keydown', onPopupEscKeydown);
+      pictureCancel.addEventListener('click', closeBigPhotoHandler);
+      document.addEventListener('keydown', popupEscKeydownHandler);
 
-      commentsLoader.addEventListener('click', addFiveComments);
+      commentsLoader.addEventListener('click', addFiveCommentsHandler);
       openedComments = 0;
       if (openedComments === 0) {
         addFiveComments();
@@ -94,5 +103,5 @@ const startShowPictures = (data) => {
   });
 };
 export {
-  startShowPictures,closeBigPhoto
+  startShowPictures,closeBigPhotoHandler
 };
