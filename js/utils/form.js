@@ -2,8 +2,8 @@ import {
   resetEffects,
   scaleControlSmaller,
   scaleControlBigger,
-  resizeImgSmallerHandler,
-  resizeImgBiggerHandler
+  scaleControlSmallerHandler,
+  scaleControlBiggerHandler
 } from './effects.js';
 
 import {
@@ -147,8 +147,8 @@ function closeForm() {
   imgUploadPreview.style.transform = 'scale(1)';
   effectNone.checked = true;
 
-  scaleControlSmaller.removeEventListener('click', resizeImgSmallerHandler);
-  scaleControlBigger.removeEventListener('click', resizeImgBiggerHandler);
+  scaleControlSmaller.removeEventListener('click', scaleControlSmallerHandler);
+  scaleControlBigger.removeEventListener('click', scaleControlBiggerHandler);
 
   resetEffects();
 }

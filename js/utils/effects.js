@@ -51,14 +51,14 @@ const resizeImg = (evt) => {
   }
 };
 
-function resizeImgBiggerHandler(evt){
+function scaleControlBiggerHandler(evt){
   resizeImg(evt);
 }
-function resizeImgSmallerHandler(evt){
+function scaleControlSmallerHandler(evt){
   resizeImg(evt);
 }
-scaleControlSmaller.addEventListener('click', resizeImgSmallerHandler);
-scaleControlBigger.addEventListener('click', resizeImgBiggerHandler);
+scaleControlSmaller.addEventListener('click', scaleControlSmallerHandler);
+scaleControlBigger.addEventListener('click', scaleControlBiggerHandler);
 
 
 //добавления фильтра на фото
@@ -134,6 +134,6 @@ export {
   resetEffects,
   scaleControlSmaller,
   scaleControlBigger,
-  resizeImgSmallerHandler,
-  resizeImgBiggerHandler
+  scaleControlSmallerHandler,
+  scaleControlBiggerHandler
 };

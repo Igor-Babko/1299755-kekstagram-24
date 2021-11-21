@@ -41,7 +41,7 @@ const showPostErrorModal = () => {
   body.append(templateItem);
   const errorClass = document.querySelector('.error');
 
-  const errorModalClose = (evt) => {
+  const closeErrorModal = (evt) => {
     if (evt.key === 'Escape') {
       evt.preventDefault();
       errorClass.remove();
@@ -51,14 +51,14 @@ const showPostErrorModal = () => {
       errorClass.remove();
     }
 
-    document.removeEventListener('keydown', errorModalCloseHandler);
+    document.removeEventListener('keydown', errorModalHandler);
   };
 
-  function errorModalCloseHandler() {
-    errorModalClose();
+  function errorModalHandler() {
+    closeErrorModal();
   }
-  errorClass.addEventListener('click', errorModalCloseHandler);
-  document.addEventListener('keydown', errorModalCloseHandler);
+  errorClass.addEventListener('click', errorModalHandler);
+  document.addEventListener('keydown', errorModalHandler);
 };
 const showPostSuccessModal = () => {
   const templateItem = successPopup.content.cloneNode(true);
