@@ -3,7 +3,6 @@ const SEND_DATA = 'https://24.javascript.pages.academy/kekstagram';
 
 import {showPostSuccessModal, showPostErrorModal, removeLoadImgMessage, showAlert} from './notifications.js';
 import {closeForm} from './form.js';
-// import {startShowPictures} from './fullSizePhoto.js';
 import {filterPictures} from './filters.js';
 import {showPhotos} from './rendering-thumbnails.js';
 import {uploadPicture} from './form.js';

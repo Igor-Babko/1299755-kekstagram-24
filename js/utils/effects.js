@@ -14,10 +14,10 @@ const STEP_EFFECT_LEVEL1 = 1;
 const SET_EFFECT_LEVEL0 = 0;
 const SET_EFFECT_LEVEL1 = 1;
 
-const noUiSliderMinRange = 0;
-const noUiSliderMaxRange = 1;
-const noUiSliderStartLevel = 1;
-const noUiSliderStepLevel = 0.1;
+const NOUISLIDER_MIN_RANGE = 0;
+const NOUISLIDER_MAX_RANGE = 1;
+const NOUISLIDER_START_LEVEL = 1;
+const NOUISLIDER_STEP_LEVEL = 0.1;
 
 const scaleControlSmaller = document.querySelector('.scale__control--smaller');
 const scaleControlBigger = document.querySelector('.scale__control--bigger');
@@ -65,11 +65,11 @@ scaleControlBigger.addEventListener('click', scaleControlBiggerHandler);
 
 noUiSlider.create(slider, {
   range: {
-    min: noUiSliderMinRange,
-    max: noUiSliderMaxRange,
+    min: NOUISLIDER_MIN_RANGE,
+    max: NOUISLIDER_MAX_RANGE,
   },
-  start: noUiSliderStartLevel,
-  step: noUiSliderStepLevel,
+  start: NOUISLIDER_START_LEVEL,
+  step: NOUISLIDER_STEP_LEVEL,
   connect: 'lower',
   format: {
     to: (value) => Number.isInteger(value) ? value : value.toFixed(1),

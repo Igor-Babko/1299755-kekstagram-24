@@ -41,45 +41,53 @@ const showPostErrorModal = () => {
   body.append(templateItem);
   const errorClass = document.querySelector('.error');
 
-  const closeErrorModal = (evt) => {
-    if (evt.key === 'Escape') {
-      evt.preventDefault();
-      errorClass.remove();
-    }
-
-    if (!evt.target.closest('.error__inner') || evt.target.getAttribute('type') === 'button') {
-      errorClass.remove();
-    }
-
-    document.removeEventListener('keydown', errorModalHandler);
+  const closeErrorModal = () => {
+    errorClass.remove();
+    document.removeEventListener('keydown', escapeKeyDownHadler);
   };
 
-  function errorModalHandler() {
-    closeErrorModal();
+  function escapeKeyDownHadler(evt) {
+    if (evt.key === 'Escape') {
+      evt.preventDefault();
+      closeErrorModal();
+    }
   }
-  errorClass.addEventListener('click', errorModalHandler);
-  document.addEventListener('keydown', errorModalHandler);
+
+  const errorCloseClickHandler = (evt) => {
+    if (!evt.target.closest('.error__inner') || evt.target.getAttribute('type') === 'button') {
+      closeErrorModal();
+    }
+  };
+  errorClass.addEventListener('click', errorCloseClickHandler);
+  document.addEventListener('keydown', escapeKeyDownHadler);
 };
 const showPostSuccessModal = () => {
   const templateItem = successPopup.content.cloneNode(true);
   body.append(templateItem);
   const successModal = document.querySelector('.success');
 
-  const successModalCloseHandler = (evt) => {
+  const successModalCloseHandler = () => {
+    successModal.remove();
+    document.removeEventListener('keydown', escapeKeyDownHadler);
+  };
+
+  function escapeKeyDownHadler(evt) {
     if (evt.key === 'Escape') {
       evt.preventDefault();
-      successModal.remove();
+      successModalCloseHandler();
     }
+  }
 
+  const successCloseClickHandler = (evt) => {
     if (!evt.target.closest('.success__inner') || evt.target.getAttribute('type') === 'button') {
-      successModal.remove();
+      successModalCloseHandler();
     }
-
-    document.removeEventListener('keydown', successModalCloseHandler);
   };
-  successModal.addEventListener('click', successModalCloseHandler);
-  document.addEventListener('keydown', successModalCloseHandler);
+  successModal.addEventListener('click', successCloseClickHandler);
+  document.addEventListener('keydown', escapeKeyDownHadler);
 };
+
+
 export {
   showAlert,
   showPostSuccessModal,
