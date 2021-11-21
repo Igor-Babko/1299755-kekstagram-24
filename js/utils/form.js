@@ -2,7 +2,8 @@ import {
   resetEffects,
   scaleControlSmaller,
   scaleControlBigger,
-  resizeImgHandler
+  resizeImgSmallerHandler,
+  resizeImgBiggerHandler
 } from './effects.js';
 
 import {
@@ -24,6 +25,14 @@ const MAX_HASH_LENGTH = 20;
 const MAX_HASH_ARRAY_LENGTH = 5;
 const ERROR_COLOR = '#8B0000';
 const REGEXP = /[~`!@_()$%^&*+=\-[\]\\';,/{}|\\":<>?]/g;
+const ERROR_SENDING_DATA = 'Не удалось отправить форму. Попробуйте ещё раз';
+const ERROR_MAX_SYMBOLS_HASHTAG = 'Максимум 20 символов в одном хэш-теге';
+const ERROR_MAX_FIVE_SYMBOLS = 'можно указать максимум 5 хэш-тегов';
+const ERROR_ONLY_GRID = 'хеш-тег не может состоять только из решётки';
+const ERROR_FIRST_SYMBOL = 'Первым символом хэш-тега должна быть #';
+const ERROR_WRONG_SYMBOLS = 'В хэш-теге запрещено указывать пробелы, спецсимволы (@, $ и т. п.)';
+const ERROR_SPACE_BETWEEN_HASHTAGS = 'Хэштеги должны разделяться пробелом';
+const ERROR_SAME_HASHTAGS = 'Нельзя указывать одинаковые хэш-теги';
 
 
 const body = document.querySelector('body');
@@ -68,28 +77,28 @@ const checkHashtagsValidityHandler = () => {
     hash.trim();
 
     if (hash.length > MAX_HASH_LENGTH) {
-      error = 'Максимум 20 символов в одном хэш-теге';
+      error = ERROR_MAX_SYMBOLS_HASHTAG;
       validate = false;
     } else if (hashElements.length > MAX_HASH_ARRAY_LENGTH) {
-      error = 'можно указать максимум 5 хэш-тегов';
+      error = ERROR_MAX_FIVE_SYMBOLS;
       validate = false;
     } else if (hash === '#') {
-      error = 'хеш-тег не может состоять только из решётки';
+      error = ERROR_ONLY_GRID;
       validate = false;
     } else if (!hash.startsWith('#')) {
-      error = 'Первым символом хэш-тега должна быть #';
+      error = ERROR_FIRST_SYMBOL;
       validate = false;
     } else if (REGEXP.test(hash)) {
-      error = 'В хэш-теге запрещено указывать пробелы, спецсимволы (@, $ и т. п.)';
+      error = ERROR_WRONG_SYMBOLS;
       validate = false;
     } else if (hash.indexOf('#', 1) > 0) {
-      error = 'Хэштеги должны разделяться пробелом';
+      error = ERROR_SPACE_BETWEEN_HASHTAGS;
     } else {
       validate = true;
     }
   });
   if (checkDuplicates(hashElements)) {
-    error = 'Нельзя указывать одинаковые хэш-теги';
+    error = ERROR_SAME_HASHTAGS;
   }
   if (hashElements[0] === '') {
     textHashtags.value = textHashtags.value.trim();
@@ -138,8 +147,8 @@ function closeForm() {
   imgUploadPreview.style.transform = 'scale(1)';
   effectNone.checked = true;
 
-  scaleControlSmaller.removeEventListener('click', resizeImgHandler);
-  scaleControlBigger.removeEventListener('click', resizeImgHandler);
+  scaleControlSmaller.removeEventListener('click', resizeImgSmallerHandler);
+  scaleControlBigger.removeEventListener('click', resizeImgBiggerHandler);
 
   resetEffects();
 }
@@ -159,7 +168,7 @@ const setUserFormSubmit = (onSuccess) => {
     showLoadImgMessage();
     sendData(
       () => onSuccess(),
-      () => showAlert('Не удалось отправить форму. Попробуйте ещё раз'),
+      () => showAlert(ERROR_SENDING_DATA),
       new FormData(evt.target),
     );
   });
